@@ -1,0 +1,27 @@
+﻿{
+  "default": {
+    "access_notes": "Family planning services available at public health facilities, private clinics, and pharmacies across Kenya. Ask about your needs.",
+    "partner_dynamics": "Partner involvement varies. You can access services independently. All services are confidential. Discuss with your provider.",
+    "common_myths": ["infertility", "weight_gain", "religion_forbidden"]
+  },
+  "nairobi": {
+    "access_notes": "Wide access across the city. Public facilities, private clinics, pharmacies, Marie Stopes, Family Health Options Kenya (FHOK), and community centers provide confidential services.",
+    "partner_dynamics": "Women can access services independently. Many clinics offer confidential services without partner consent.",
+    "common_myths": ["infertility", "weight_gain", "side_effects_dangerous"]
+  },
+  "garissa": {
+    "access_notes": "Services available at Garissa Referral Hospital, Iftin Sub-County Hospital, and mobile clinics in Daadab camps. Community health workers available.",
+    "partner_dynamics": "Discussing family planning with your husband may be helpful. Female providers available. All services are confidential.",
+    "common_myths": ["infertility", "religion_forbidden", "only_for_married", "future_pregnancy"]
+  },
+  "kisumu": {
+    "access_notes": "Good access at Jaramogi Oginga Odinga Teaching and Referral Hospital. Mobile clinics available.",
+    "partner_dynamics": "Mix of independent and partner-involved care. Youth-friendly centers available.",
+    "common_myths": ["infertility", "side_effects_dangerous", "weight_gain"]
+  },
+  "mombasa": {
+    "access_notes": "Services at Coast General Hospital, private clinics, and pharmacies.",
+    "partner_dynamics": "Increasing independent access. Confidential services available.",
+    "common_myths": ["infertility", "cancer", "ec_is_abortion"]
+  }
+}

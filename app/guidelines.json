@@ -1,0 +1,129 @@
+{
+    "kenya_fp_guidelines_7th_edition": {
+      "version": "7.0",
+      "year": 2025,
+      "source": "Ministry of Health Kenya, Division of RMNCAH",
+      "rules": [
+        {
+          "condition": "breastfeeding_under_6_weeks",
+          "avoid_methods": ["combined_pill"],
+          "safe_methods": ["progestin_only_pill", "implant", "injectable_dmpa", "copper_iud", "hormonal_iud", "male_condom", "female_condom", "lam"],
+          "reason": "Estrogen in combined methods may affect milk supply and newborn health. Progestin-only methods are safe during breastfeeding after 6 weeks."
+        },
+        {
+          "condition": "age_over_35_and_smoker",
+          "avoid_methods": ["combined_pill"],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "progestin_only_pill", "male_condom", "female_condom", "natural_family_planning"],
+          "reason": "Increased risk of cardiovascular events including stroke and heart attack. Use progestin-only or non-hormonal methods."
+        },
+        {
+          "condition": "migraine_with_aura",
+          "avoid_methods": ["combined_pill"],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Increased risk of ischemic stroke. Progestin-only and non-hormonal methods are safe."
+        },
+        {
+          "condition": "blood_clot_history",
+          "avoid_methods": ["combined_pill"],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Estrogen increases blood clot risk. Use progestin-only or non-hormonal methods."
+        },
+        {
+          "condition": "breast_cancer_current",
+          "avoid_methods": ["combined_pill", "progestin_only_pill", "implant", "injectable_dmpa", "hormonal_iud"],
+          "safe_methods": ["copper_iud", "male_condom", "female_condom", "natural_family_planning"],
+          "reason": "Hormones may stimulate hormone-sensitive breast cancer. Use non-hormonal methods."
+        },
+        {
+          "condition": "pelvic_infection_current",
+          "avoid_methods": ["copper_iud", "hormonal_iud"],
+          "safe_methods": ["implant", "injectable_dmpa", "combined_pill", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "IUD insertion can worsen infection or cause septic abortion. Treat infection first."
+        },
+        {
+          "condition": "heavy_menstrual_bleeding",
+          "avoid_methods": ["copper_iud"],
+          "safe_methods": ["hormonal_iud", "implant", "injectable_dmpa", "combined_pill", "progestin_only_pill", "male_condom"],
+          "reason": "Copper IUD makes heavy bleeding worse. Hormonal IUD makes it better and is treatment for heavy bleeding."
+        },
+        {
+          "condition": "hiv_positive",
+          "avoid_methods": [],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "combined_pill", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "All methods are safe. Condoms strongly recommended for dual protection against STIs and HIV transmission."
+        },
+        {
+          "condition": "liver_disease_severe",
+          "avoid_methods": ["combined_pill", "implant", "injectable_dmpa", "hormonal_iud"],
+          "safe_methods": ["copper_iud", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Hormonal methods are metabolized by the liver. Use non-hormonal or lowest-dose hormonal options."
+        },
+        {
+          "condition": "diabetes_with_complications",
+          "avoid_methods": ["combined_pill"],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Combined pills may affect blood sugar and increase vascular risks. Progestin-only methods are preferred."
+        },
+        {
+          "condition": "severe_hypertension",
+          "avoid_methods": ["combined_pill"],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Estrogen can increase blood pressure. Progestin-only and non-hormonal methods are safe."
+        },
+        {
+          "condition": "postpartum_under_3_weeks",
+          "avoid_methods": ["copper_iud", "hormonal_iud", "implant"],
+          "safe_methods": ["progestin_only_pill", "injectable_dmpa", "male_condom", "female_condom", "lam"],
+          "reason": "Increased risk of infection and expulsion for IUDs within 3 weeks postpartum. Progestin-only methods are safe."
+        },
+        {
+          "condition": "puerperal_sepsis",
+          "avoid_methods": ["copper_iud", "hormonal_iud"],
+          "safe_methods": ["implant", "injectable_dmpa", "combined_pill", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Do not insert IUD if there is puerperal sepsis. Treat infection first."
+        },
+        {
+          "condition": "unexplained_vaginal_bleeding",
+          "avoid_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa"],
+          "safe_methods": ["progestin_only_pill", "combined_pill", "male_condom", "female_condom"],
+          "reason": "Require evaluation before using long-acting methods. Evaluate for underlying cause first."
+        },
+        {
+          "condition": "migraine_without_aura_over_35",
+          "avoid_methods": ["combined_pill"],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Increased stroke risk with age. Use progestin-only or non-hormonal methods."
+        },
+        {
+          "condition": "obesity_bmi_over_30",
+          "avoid_methods": [],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Obesity does not restrict use of any method. Some methods may have slightly lower effectiveness but are still good options."
+        },
+        {
+          "condition": "on_arv_medication_efavirenz",
+          "avoid_methods": ["combined_pill", "implant"],
+          "safe_methods": ["copper_iud", "hormonal_iud", "injectable_dmpa", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Efavirenz may reduce effectiveness of combined pills and implants. Use DMPA or IUDs."
+        },
+        {
+          "condition": "on_tb_rifampicin",
+          "avoid_methods": ["combined_pill", "progestin_only_pill", "implant"],
+          "safe_methods": ["copper_iud", "hormonal_iud", "injectable_dmpa", "male_condom", "female_condom"],
+          "reason": "Rifampicin reduces effectiveness of oral and implant hormonal methods. Use DMPA or IUDs."
+        },
+        {
+          "condition": "age_under_18",
+          "avoid_methods": [],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "combined_pill", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Adolescents can safely use all methods. Long-acting reversible methods (IUD, implant) are preferred for young women."
+        },
+        {
+          "condition": "age_under_20",
+          "avoid_methods": [],
+          "safe_methods": ["copper_iud", "hormonal_iud", "implant", "injectable_dmpa", "combined_pill", "progestin_only_pill", "male_condom", "female_condom"],
+          "reason": "Young women can safely use all methods. LARC methods are recommended."
+        }
+      ]
+    }
+  }

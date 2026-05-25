@@ -1,0 +1,74 @@
+{
+    "infertility": {
+      "myth": "Modern contraceptives cause permanent infertility",
+      "evidence": "No scientific evidence shows contraceptives cause permanent infertility. Fertility returns when you stop using contraception. The only exception is the injectable Depo-Provera, which may delay return to fertility for up to one year, but not permanently. Women who stop using family planning to become pregnant have the same pregnancy rates as women who never used contraception.",
+      "kenya_guideline": "All modern contraceptives are safe and reversible. Women should be counseled that fertility returns after stopping most methods.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 3"
+    },
+    "cancer": {
+      "myth": "Contraceptives cause cancer",
+      "evidence": "The opposite is often true. Hormonal contraceptives reduce risk of ovarian and endometrial cancer by up to 50%. There is a very small increase in breast and cervical cancer risk that returns to normal after stopping. For most women, the benefits of protection against cancer outweigh any small risks.",
+      "kenya_guideline": "For most women, the health benefits of modern contraceptives including cancer protection outweigh the risks.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 4"
+    },
+    "weight_gain_permanent": {
+      "myth": "Contraceptives cause permanent weight gain",
+      "evidence": "Only the injectable (Depo-Provera) is clearly linked to weight gain of about 2-5 kg over 1-2 years. This weight is not permanent and can be managed with diet and exercise. Other methods like IUDs, implants, and pills have no proven link to significant weight gain.",
+      "kenya_guideline": "Weight gain should not prevent use of any method except for women with specific medical conditions.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 4"
+    },
+    "future_pregnancy": {
+      "myth": "Family planning will permanently stop me from having children",
+      "evidence": "This is false except for sterilization which is intended to be permanent. All other methods are reversible. A woman can become pregnant immediately after stopping pills, IUDs, or implants. The injectable may take up to one year for fertility to return, but it is not permanent.",
+      "kenya_guideline": "Modern family planning methods do not cause permanent infertility. Women should be counseled about return to fertility.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 3"
+    },
+    "religion_forbidden": {
+      "myth": "Family planning is against my religion",
+      "evidence": "Most major religions including Christianity and Islam allow family planning for health and well-being of the family. Natural Family Planning methods are accepted by all religions. The Catholic Church permits Natural Family Planning methods. Many Muslim scholars permit modern contraception. Speak to your religious leader for guidance specific to your faith.",
+      "kenya_guideline": "Family planning is a human right. Health workers should respect religious beliefs while providing accurate information about all methods.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 1"
+    },
+    "only_for_married": {
+      "myth": "Family planning is only for married women",
+      "evidence": "Family planning is for all sexually active women regardless of marital status. Single women, adolescents, and unmarried women have the right to prevent pregnancy and protect their health. All individuals have the right to access reproductive health services without discrimination based on marital status.",
+      "kenya_guideline": "All women of reproductive age have the right to access family planning information and services without discrimination.",
+      "reference": "Kenya Constitution 2010, Article 43"
+    },
+    "breastfeeding_protection": {
+      "myth": "I can't get pregnant while breastfeeding",
+      "evidence": "Breastfeeding provides some protection only if ALL THREE conditions are met: baby is under 6 months, you are exclusively breastfeeding (no formula or food, at least every 4 hours during day and every 6 hours at night), and your periods have not returned. Even then, it is only 98% effective. Many women become pregnant while breastfeeding thinking they are protected.",
+      "kenya_guideline": "Lactational Amenorrhea Method (LAM) requires specific conditions. Other family planning methods are safe during breastfeeding after 6 weeks.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 8"
+    },
+    "ec_is_abortion": {
+      "myth": "Emergency contraception is the abortion pill",
+      "evidence": "Emergency contraception PREVENTS pregnancy. It works by delaying ovulation or preventing fertilization. It does NOT work if implantation has already occurred. It cannot end an existing pregnancy. The abortion pill (medical abortion) ends an established pregnancy and is completely different. Emergency contraception is safe and effective for preventing pregnancy after unprotected sex.",
+      "kenya_guideline": "Emergency contraception is not an abortifacient. It should be available to all women who need it.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 4"
+    },
+    "ec_reusable": {
+      "myth": "I can use emergency contraception every time I have sex",
+      "evidence": "Emergency contraception is for emergencies only. It is less effective than regular methods (85% vs 91-99% for regular methods). Frequent use can cause irregular bleeding and is not recommended. Use a regular method like pills, IUD, implant, or injectable for ongoing protection.",
+      "kenya_guideline": "Emergency contraception should not replace regular family planning methods. Women requesting EC should be counseled about regular methods.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 4"
+    },
+    "side_effects_dangerous": {
+      "myth": "All side effects mean the method is dangerous for me",
+      "evidence": "Most side effects are normal and temporary as your body adjusts to hormones (usually 3-6 months). Dangerous signs requiring immediate medical attention include: severe chest pain, severe leg pain, sudden severe headache, vision changes, severe abdominal pain. Common side effects like spotting, nausea, breast tenderness, or mild headaches are usually not dangerous and often improve with time.",
+      "kenya_guideline": "Women should be counseled on common side effects and danger signs, and when to seek medical care.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 3"
+    },
+    "iud_unsafe_nulliparous": {
+      "myth": "IUDs are not safe for women who have not had children",
+      "evidence": "IUDs are safe for women who have not had children (nulliparous). The WHO Medical Eligibility Criteria lists IUDs as Category 2 for nulliparous women, meaning advantages generally outweigh risks. Insertion may be slightly more challenging but is safe and effective. IUDs are a great option for young women who want long-term, highly effective, reversible contraception.",
+      "kenya_guideline": "IUDs can be used by women of any parity, including those who have never given birth. Careful counseling is recommended.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 5"
+    },
+    "hormonal_moods": {
+      "myth": "Hormonal contraceptives always cause depression and mood swings",
+      "evidence": "While some women experience mood changes, many do not. The link between hormonal contraception and depression varies by individual and method. Progestin-only methods (IUD, implant, mini-pill) may have fewer mood effects than combined methods. If you experience mood changes, you can try a different method. Many women use hormonal methods without any mood effects.",
+      "kenya_guideline": "Women with depressive disorders can generally use hormonal contraception with careful follow-up.",
+      "reference": "Kenya FP Guidelines 7th Edition, Chapter 4"
+    }
+  }

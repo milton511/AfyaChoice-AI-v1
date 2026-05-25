@@ -1,0 +1,298 @@
+{
+    "copper_iud": {
+      "name": "Copper IUD (Cu-IUD)",
+      "type": "long_acting_reversible",
+      "hormonal": false,
+      "effectiveness": 99,
+      "duration_years": 10,
+      "advantages": [
+        "No hormones",
+        "Works immediately",
+        "Effective for 10 years",
+        "Reversible",
+        "Can be used as emergency contraception"
+      ],
+      "side_effects": [
+        "Heavier periods",
+        "More cramping first 3-6 months",
+        "Irregular spotting"
+      ],
+      "avoid_if": ["current_pregnancy", "pelvic_infection", "uterine_abnormality", "wilson_disease"],
+      "caution_if": ["younger_than_18", "past_pid", "heavy_bleeding", "hiv", "anemia"],
+      "contraindications": ["puerperal_sepsis", "post_septic_abortion", "unexplained_bleeding", "fibroids", "uterine_abnormalities", "pelvic_tb", "high_sti_exposure"],
+      "questions_for_provider": [
+        "Will insertion be painful?",
+        "How do I check strings?",
+        "When can I resume activities?"
+      ]
+    },
+    "hormonal_iud": {
+      "name": "Hormonal IUD (LNG-IUD)",
+      "type": "long_acting_reversible",
+      "hormonal": true,
+      "effectiveness": 99,
+      "duration_years": 5,
+      "advantages": [
+        "Lighter periods",
+        "Less cramping",
+        "Effective for 5 years",
+        "May stop periods entirely",
+        "Reduces risk of endometrial cancer"
+      ],
+      "side_effects": [
+        "Irregular bleeding first 3-6 months",
+        "Headaches",
+        "Breast tenderness",
+        "Mood changes",
+        "Acne possible"
+      ],
+      "avoid_if": ["current_pregnancy", "breast_cancer", "liver_disease", "pelvic_infection"],
+      "caution_if": ["younger_than_18", "past_pid", "hiv", "dvt_history", "sle", "migraines"],
+      "contraindications": ["acute_dvt", "severe_cirrhosis", "liver_tumors", "migraine_with_aura", "ihd", "breast_cancer"],
+      "questions_for_provider": [
+        "Will I gain weight?",
+        "How is it inserted?",
+        "Can I feel it during sex?"
+      ]
+    },
+    "implant": {
+      "name": "Implant (Nexplanon/Implanon/Jadelle)",
+      "type": "long_acting_reversible",
+      "hormonal": true,
+      "effectiveness": 99,
+      "duration_years": 5,
+      "advantages": [
+        "Highly effective",
+        "Discreet",
+        "No daily action",
+        "Quick insertion",
+        "Works for 3-5 years"
+      ],
+      "side_effects": [
+        "Irregular bleeding",
+        "Headaches",
+        "Weight gain possible",
+        "Acne possible",
+        "Mood changes",
+        "Breast tenderness"
+      ],
+      "avoid_if": ["current_pregnancy", "breast_cancer", "liver_tumor", "unexplained_bleeding"],
+      "caution_if": ["breastfeeding_under_6_weeks", "multiple_cvd_risks", "severe_hypertension", "dvt_history", "ihd_history", "sle", "migraines", "hiv_on_arv", "tb_on_rifampicin"],
+      "contraindications": ["severe_cirrhosis", "liver_tumors", "unexplained_bleeding_before_evaluation", "breast_cancer", "current_dvt", "worsening_migraine_with_aura"],
+      "questions_for_provider": [
+        "Can I feel it under my skin?",
+        "How is it removed?",
+        "Will it scar?",
+        "When can I return to work?"
+      ]
+    },
+    "injectable_dmpa": {
+      "name": "Injectable (Depo-Provera/DMPA)",
+      "type": "short_acting",
+      "hormonal": true,
+      "effectiveness": 94,
+      "duration_weeks": 12,
+      "advantages": [
+        "Private",
+        "Every 3 months",
+        "No daily pill",
+        "May stop periods",
+        "Can self-inject with DMPA-SC"
+      ],
+      "side_effects": [
+        "Weight gain common",
+        "Delayed return to fertility (up to 1 year)",
+        "Bone density loss with long use",
+        "Irregular bleeding",
+        "Headaches",
+        "Abdominal bloating"
+      ],
+      "avoid_if": ["current_pregnancy", "breast_cancer", "bone_disease", "unexplained_bleeding"],
+      "caution_if": ["age_under_18_or_over_45", "hypertension", "dvt_history", "sle", "migraines", "irregular_bleeding", "cervical_cancer", "uncomplicated_diabetes", "hiv_on_arv", "tb_on_rifampicin"],
+      "contraindications": ["breastfeeding_under_6_weeks", "multiple_cvd_risks", "ihd", "diabetes_with_vascular_complications", "bp_over_160", "stroke_history", "acute_dvt", "sle_antiphospholipid", "severe_cirrhosis", "unexplained_bleeding", "breast_cancer"],
+      "questions_for_provider": [
+        "When will my periods return after stopping?",
+        "Do I need calcium supplements?",
+        "Can I learn to self-inject?"
+      ]
+    },
+    "combined_pill": {
+      "name": "Combined Oral Contraceptive Pill (COC)",
+      "type": "short_acting",
+      "hormonal": true,
+      "effectiveness": 91,
+      "duration_daily": true,
+      "advantages": [
+        "Regulates periods",
+        "Less cramping",
+        "Lighter periods",
+        "May improve acne",
+        "Reduces risk of ovarian and endometrial cancer"
+      ],
+      "side_effects": [
+        "Nausea first months",
+        "Headaches",
+        "Breast tenderness",
+        "Mood changes",
+        "Blood clot risk (rare)",
+        "Weight changes possible"
+      ],
+      "avoid_if": ["age_35_and_smoker", "migraine_with_aura", "blood_clot_history", "breast_cancer", "liver_disease"],
+      "caution_if": ["age_over_40", "postpartum_21_days", "breastfeeding_over_6_months", "unexplained_bleeding", "obesity", "uncomplicated_diabetes", "history_pregnancy_hypertension", "superficial_dvt", "smoking_under_35", "valvular_heart_disease", "migraine_without_aura_under_35", "breast_lumps", "hiv_on_arv"],
+      "contraindications": ["breastfeeding_under_6_weeks", "ihd", "stroke", "severe_hypertension", "dvt_pe", "major_surgery_immobilization", "sle_antiphospholipid", "diabetes_with_vascular_disease", "heavy_smoking_over_35", "breast_cancer", "severe_cirrhosis", "liver_tumors", "symptomatic_gallbladder", "certain_anticonvulsants", "rifampicin_tb"],
+      "questions_for_provider": [
+        "What if I miss a pill?",
+        "Does it interact with other medications?",
+        "Will I gain weight?"
+      ]
+    },
+    "progestin_only_pill": {
+      "name": "Progestin-Only Pill (Mini Pill/POP)",
+      "type": "short_acting",
+      "hormonal": true,
+      "effectiveness": 91,
+      "duration_daily": true,
+      "advantages": [
+        "Safe while breastfeeding",
+        "No estrogen side effects",
+        "Can use with migraines",
+        "Safer for smokers over 35",
+        "Can use with high blood pressure"
+      ],
+      "side_effects": [
+        "Irregular bleeding",
+        "Headaches",
+        "Breast tenderness",
+        "Acne possible",
+        "Mood changes"
+      ],
+      "avoid_if": ["current_pregnancy", "breast_cancer", "liver_disease", "unexplained_bleeding"],
+      "caution_if": ["ectopic_pregnancy_history", "breastfeeding_under_4_weeks", "on_arv", "irregular_heavy_bleeding", "diabetes", "hypertension", "migraines", "dvt_pe_history", "ihd_history", "breast_lumps", "sle"],
+      "contraindications": ["breast_cancer", "severe_cirrhosis", "liver_tumors", "acute_dvt", "sle_antiphospholipid", "certain_anticonvulsants", "rifampicin_tb"],
+      "questions_for_provider": [
+        "Same time every day really required?",
+        "What if I'm 3 hours late?"
+      ]
+    },
+    "emergency_contraception": {
+      "name": "Emergency Contraception (EC)",
+      "type": "emergency",
+      "hormonal": true,
+      "effectiveness": 85,
+      "duration_single_use": true,
+      "advantages": [
+        "Prevents pregnancy after unprotected sex",
+        "Available at pharmacies without prescription",
+        "Works up to 5 days",
+        "Copper IUD can also be used as EC"
+      ],
+      "side_effects": [
+        "Nausea",
+        "Headache",
+        "Dizziness",
+        "Next period may be early or late"
+      ],
+      "avoid_if": ["known_pregnancy"],
+      "caution_if": ["breastfeeding_using_upa", "history_severe_cardiovascular", "angina", "migraines", "severe_liver_disease"],
+      "contraindications": ["known_pregnancy", "repeated_use"],
+      "questions_for_provider": [
+        "Is it the abortion pill?",
+        "How many times can I use it?"
+      ]
+    },
+    "male_condom": {
+      "name": "Male Condom",
+      "type": "barrier",
+      "hormonal": false,
+      "effectiveness": 82,
+      "duration_per_use": true,
+      "advantages": [
+        "Protects against STIs including HIV",
+        "No hormones",
+        "No prescription needed",
+        "Available everywhere",
+        "No side effects"
+      ],
+      "side_effects": [
+        "Reduced sensation possible",
+        "Latex allergy possible"
+      ],
+      "avoid_if": ["latex_allergy"],
+      "caution_if": [],
+      "contraindications": [],
+      "questions_for_provider": [
+        "Are they free at government clinics?"
+      ]
+    },
+    "female_condom": {
+      "name": "Female Condom",
+      "type": "barrier",
+      "hormonal": false,
+      "effectiveness": 79,
+      "duration_per_use": true,
+      "advantages": [
+        "Protects against STIs including HIV",
+        "Woman-controlled",
+        "No hormones",
+        "Can insert hours before sex"
+      ],
+      "side_effects": [
+        "Can be noisy",
+        "Requires practice",
+        "Less available than male condoms"
+      ],
+      "avoid_if": [],
+      "caution_if": [],
+      "contraindications": [],
+      "questions_for_provider": [
+        "Where can I find these?"
+      ]
+    },
+    "natural_family_planning": {
+      "name": "Natural Family Planning",
+      "type": "behavioral",
+      "hormonal": false,
+      "effectiveness": 76,
+      "duration_cycle": true,
+      "advantages": [
+        "No hormones",
+        "No cost",
+        "No side effects",
+        "Acceptable to all religions"
+      ],
+      "side_effects": [
+        "Requires daily tracking",
+        "Less effective for irregular cycles",
+        "No STI protection"
+      ],
+      "avoid_if": ["irregular_cycles", "unwilling_to_track_daily"],
+      "caution_if": [],
+      "contraindications": [],
+      "questions_for_provider": [
+        "How do I track ovulation accurately?"
+      ]
+    },
+    "lam": {
+      "name": "Lactational Amenorrhea Method (LAM)",
+      "type": "behavioral",
+      "hormonal": false,
+      "effectiveness": 98,
+      "duration_months": 6,
+      "advantages": [
+        "No cost",
+        "No hormones",
+        "No side effects",
+        "Works with exclusive breastfeeding"
+      ],
+      "side_effects": [
+        "Requires exclusive breastfeeding",
+        "Only works for first 6 months"
+      ],
+      "avoid_if": ["not_exclusively_breastfeeding", "periods_returned", "baby_over_6_months"],
+      "caution_if": [],
+      "contraindications": [],
+      "questions_for_provider": [
+        "When should I switch to another method?"
+      ]
+    }
+  }
