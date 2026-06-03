@@ -1,0 +1,14 @@
+﻿{
+  "default": {
+    "access_notes": "Family planning services available at public health facilities, private clinics, and pharmacies.",
+    "partner_dynamics": "You can access services independently. Discuss with provider if needed."
+  },
+  "nairobi": {
+    "access_notes": "Wide access across the city. Many youth-friendly centres and Marie Stopes clinics.",
+    "partner_dynamics": "Independent access common. Confidential services available."
+  },
+  "garissa": {
+    "access_notes": "Services at Garissa Referral Hospital and mobile clinics. Community health workers available.",
+    "partner_dynamics": "Discussing with husband may be helpful. Female providers available."
+  }
+}

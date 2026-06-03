@@ -1,0 +1,18 @@
+﻿{
+  "infertility": {
+    "myth": "Contraceptives cause permanent infertility",
+    "evidence": "No scientific evidence shows that. Fertility returns after stopping all methods, though injectable may delay return up to one year."
+  },
+  "ec_reusable": {
+    "myth": "I can use emergency contraception every time I have sex",
+    "evidence": "EC is for emergencies only. Repeated use reduces efficacy and causes irregular bleeding. Use a regular method for ongoing protection."
+  },
+  "weight_gain": {
+    "myth": "All contraceptives cause weight gain",
+    "evidence": "Only injectable DMPA is clearly linked to weight gain (2-5 kg over 1-2 years). Other methods have no proven significant weight gain."
+  },
+  "cancer": {
+    "myth": "Contraceptives cause cancer",
+    "evidence": "Hormonal methods reduce risk of ovarian and endometrial cancer. There is a small, reversible increase in breast/cervical cancer risk."
+  }
+}

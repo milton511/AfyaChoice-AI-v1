@@ -1,0 +1,74 @@
+﻿{
+  "copper_iud": {
+    "name": "Copper IUD",
+    "type": "long_acting_reversible",
+    "hormonal": false,
+    "effectiveness": 99,
+    "advantages": ["No hormones", "Works immediately", "Lasts 10 years", "Reversible"],
+    "side_effects": ["Heavier periods", "More cramping first 3-6 months"]
+  },
+  "hormonal_iud": {
+    "name": "Hormonal IUD",
+    "type": "long_acting_reversible",
+    "hormonal": true,
+    "effectiveness": 99,
+    "advantages": ["Lighter periods", "Less cramping", "Lasts 5 years"],
+    "side_effects": ["Irregular bleeding first months", "Headaches", "Breast tenderness"]
+  },
+  "implant": {
+    "name": "Implant",
+    "type": "long_acting_reversible",
+    "hormonal": true,
+    "effectiveness": 99,
+    "advantages": ["Highly effective", "Discreet", "No daily action", "Works 3-5 years"],
+    "side_effects": ["Irregular bleeding", "Weight gain possible", "Mood changes"]
+  },
+  "injectable": {
+    "name": "Injectable (DMPA)",
+    "type": "short_acting",
+    "hormonal": true,
+    "effectiveness": 94,
+    "advantages": ["Private", "Every 3 months", "No daily pill", "May stop periods"],
+    "side_effects": ["Weight gain", "Delayed return to fertility", "Irregular bleeding"]
+  },
+  "combined_pill": {
+    "name": "Combined Pill",
+    "type": "short_acting",
+    "hormonal": true,
+    "effectiveness": 91,
+    "advantages": ["Regulates periods", "Less cramping", "May improve acne"],
+    "side_effects": ["Nausea first months", "Headaches", "Blood clot risk (rare)"]
+  },
+  "progestin_pill": {
+    "name": "Progestin-Only Pill",
+    "type": "short_acting",
+    "hormonal": true,
+    "effectiveness": 91,
+    "advantages": ["Safe while breastfeeding", "No estrogen", "Can use with migraines"],
+    "side_effects": ["Irregular bleeding", "Headaches", "Breast tenderness"]
+  },
+  "male_condom": {
+    "name": "Male Condom",
+    "type": "barrier",
+    "hormonal": false,
+    "effectiveness": 82,
+    "advantages": ["STI protection", "No hormones", "No prescription"],
+    "side_effects": ["Reduced sensation possible", "Latex allergy"]
+  },
+  "female_condom": {
+    "name": "Female Condom",
+    "type": "barrier",
+    "hormonal": false,
+    "effectiveness": 79,
+    "advantages": ["STI protection", "Woman-controlled", "No hormones"],
+    "side_effects": ["Can be noisy", "Requires practice"]
+  },
+  "lam": {
+    "name": "Lactational Amenorrhea Method",
+    "type": "behavioral",
+    "hormonal": false,
+    "effectiveness": 98,
+    "advantages": ["No cost", "No hormones", "Works with exclusive breastfeeding"],
+    "side_effects": ["Requires exclusive breastfeeding", "Only 6 months"]
+  }
+}

@@ -1,0 +1,47 @@
+﻿# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+venv/
+.venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Streamlit
+.streamlit/
+
+# Logs & databases
+*.log
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.pem
+*.key
+
+# Data files (optional – comment out if you want to commit small samples)
+# app/data/*.xlsx
+app/data/model.pkl
+
+# Logs directory
+logs/

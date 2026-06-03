@@ -1,0 +1,39 @@
+﻿{
+  "rules": [
+    {
+      "condition": "breastfeeding_under_6_weeks",
+      "avoid_methods": ["combined_pill"],
+      "reason": "Estrogen may affect milk supply."
+    },
+    {
+      "condition": "age_over_35_and_smoker",
+      "avoid_methods": ["combined_pill"],
+      "reason": "Increased cardiovascular risk."
+    },
+    {
+      "condition": "migraine_with_aura",
+      "avoid_methods": ["combined_pill"],
+      "reason": "Increased stroke risk."
+    },
+    {
+      "condition": "blood_clot_history",
+      "avoid_methods": ["combined_pill"],
+      "reason": "Estrogen increases clot risk."
+    },
+    {
+      "condition": "breast_cancer_current",
+      "avoid_methods": ["combined_pill", "progestin_pill", "implant", "injectable", "hormonal_iud"],
+      "reason": "Hormones may stimulate breast cancer."
+    },
+    {
+      "condition": "pelvic_infection_current",
+      "avoid_methods": ["copper_iud", "hormonal_iud"],
+      "reason": "IUD insertion can worsen infection."
+    },
+    {
+      "condition": "heavy_menstrual_bleeding",
+      "avoid_methods": ["copper_iud"],
+      "reason": "Copper IUD makes bleeding heavier."
+    }
+  ]
+}
