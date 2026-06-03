@@ -1,4 +1,4 @@
-﻿import pickle
+import pickle
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -112,3 +112,5 @@ class MLRanker:
         X_scaled = self.scaler.transform(df)
         proba = self.model.predict_proba(X_scaled)[0]
         return {self.le.classes_[i]: proba[i] for i in range(len(proba))}
+
+# Auto-train on first run
