@@ -1,9 +1,12 @@
 ﻿import json
+import os
 from ml_model import hormonal_probability
 from rules import get_mec_score
 
 def load_methods():
-    with open("data/methods.json", "r") as f:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(base_dir, "data", "methods.json")
+    with open(path, "r") as f:
         return json.load(f)["methods"]
 
 def rank_methods(user_data, user_preference="No preference"):
@@ -27,7 +30,6 @@ def rank_methods(user_data, user_preference="No preference"):
         if mec == 4:
             continue
         
-        # Base score from model
         if m["type"] == "hormonal":
             base = prob * 100
         else:
@@ -56,4 +58,4 @@ def rank_methods(user_data, user_preference="No preference"):
         })
     
     scored.sort(key=lambda x: x["score"], reverse=True)
-    return scored[:3]  # top 3
+    return scored[:3]
