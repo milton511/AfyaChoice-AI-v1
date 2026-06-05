@@ -1,6 +1,7 @@
 ﻿import streamlit as st
 from PIL import Image
 from recommend import rank_methods
+from ml_model import hormonal_probability
 
 st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 
@@ -104,6 +105,9 @@ with col2:
 # ============================================
 if st.button("🌸 Get my recommendations", use_container_width=True):
     with st.spinner("Analyzing your profile..."):
+        # Calculate probability directly from model
+        prob = hormonal_probability(age_group, edu, marital, ever_pregnant)
+        
         user_data = {
             "age_group_clinical": age_group,
             "edu_level": edu,
@@ -115,6 +119,9 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
         }
         top3 = rank_methods(user_data, preference)
 
+    # Display probability metric
+    st.metric("📊 Hormonal suitability score", f"{prob:.0%}")
+    
     st.subheader("🌟 Your top 3 recommendations")
     for i, m in enumerate(top3, 1):
         st.markdown(f'<div class="rec-card">', unsafe_allow_html=True)
