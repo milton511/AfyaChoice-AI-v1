@@ -1,4 +1,4 @@
-﻿# Python
+# Python
 __pycache__/
 *.pyc
 *.pyo
@@ -39,9 +39,8 @@ Thumbs.db
 *.pem
 *.key
 
-# Data files (optional – comment out if you want to commit small samples)
+# Data files (optional � comment out if you want to commit small samples)
 # app/data/*.xlsx
-app/data/model.pkl
 
 # Logs directory
 logs/
