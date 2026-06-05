@@ -2,8 +2,12 @@
 from PIL import Image
 from recommend import rank_methods
 from ml_model import hormonal_probability
+from dotenv import load_dotenv
+import os
 import datetime
-import re
+from groq import Groq
+
+load_dotenv()
 
 st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 
@@ -11,13 +15,12 @@ st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 if "theme" not in st.session_state:
     st.session_state.theme = "light"
 
-# Theme toggle
 with st.sidebar:
     if st.button("🌓 Toggle Dark/Light Theme"):
         st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
         st.rerun()
 
-# CSS for light/dark themes with high contrast
+# Light/dark CSS (fixed contrast)
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background-color: #FFF0F5; }
@@ -61,7 +64,7 @@ else:
 
 st.markdown(f"<style>{theme_css}</style>", unsafe_allow_html=True)
 
-# Sidebar
+# Sidebar (logo unchanged)
 with st.sidebar:
     try:
         logo = Image.open("assets/doctor.jpg")
@@ -82,10 +85,9 @@ except:
     pass
 
 # ============================================
-# CHATBOT (Improved rule-based)
+# CHATBOT with Groq (real LLM)
 # ============================================
-with st.expander("💬 Ask Afya (FAQ Bot) - Ask any family planning question"):
-    # Initialize chat history
+with st.expander("💬 Ask Afya (FAQ Bot) - Ask anything about family planning"):
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
     
@@ -97,50 +99,46 @@ with st.expander("💬 Ask Afya (FAQ Bot) - Ask any family planning question"):
             st.markdown(f"**Afya:** {msg['content']}")
         st.markdown("---")
     
-    # Input field
     user_question = st.text_input("Your question:", key="chat_input")
     
-    # Rule-based responses (expanded)
-    def get_bot_response(question):
-        q = question.lower().strip()
-        # Pregnancy
-        if re.search(r'\bpregnant\b|\bexpecting\b|\bpregnancy\b', q):
-            return "If you are currently pregnant, you can still use contraception after delivery. While pregnant, no contraceptive is needed. After birth, you may use progestin-only pills, implants, IUDs, or condoms. Avoid combined pills if breastfeeding. Consult your healthcare provider for timing."
-        # Breastfeeding
-        elif re.search(r'\bbreastfeeding\b|\bbreastfeed\b|\bnursing\b', q):
-            return "Breastfeeding women can use: progestin-only pills, implants, injectables (DMPA), IUDs, and condoms. Combined pills are not recommended (MEC 3). LAM (Lactational Amenorrhea Method) is effective only if baby is <6 months, exclusively breastfed, and no periods."
-        # Side effects
-        elif re.search(r'\bside effect\b|\bside effects\b', q):
-            return "Common side effects vary by method:\n- Pills: nausea, headaches, mood changes\n- Implant: irregular bleeding, weight gain\n- IUD (copper): heavier periods, cramps\n- Injectable: delayed return to fertility, bone density concerns\n- Condoms: none serious, but breakage possible."
-        # Emergency contraception
-        elif re.search(r'\bemergency\b|\bplan b\b|\bmorning after\b', q):
-            return "Emergency contraception options in Kenya: Copper IUD (up to 5 days) and emergency pills (ECPs) like Postinor-2 (up to 3 days). Available at pharmacies and clinics without prescription."
-        # Cancer history
-        elif re.search(r'\bcancer\b|\btumour\b', q):
-            return "If you have breast cancer, avoid hormonal methods (combined and progestin-only). Copper IUD or condoms are safer. For cervical cancer, IUDs are not recommended (MEC 2-3). Always discuss with your oncologist."
-        # STI
-        elif re.search(r'\bSTI\b|\bSTD\b|\bsexually transmitted\b', q):
-            return "Condoms (male/female) are the only methods that protect against STIs. IUD insertion may increase infection risk if you have an untreated STI. Consider dual protection: condoms + another method."
-        # Method comparison
-        elif re.search(r'\bcompare\b|\bdifference\b|\bwhich method\b', q):
-            return "We recommend using the form above to get personalized top 3 methods. Generally, implants and IUDs are most effective (>99%), pills/injectables ~91-94%, condoms ~85%."
-        # Duration
-        elif re.search(r'\bhow long\b|\bduration\b|\blasting\b', q):
-            return "Short-term: pills, condoms (daily/act). Medium: injectables (3 months), patch/ring (monthly). Long-term: implant (3-5 years), IUD (5-12 years). Permanent: sterilization."
-        # Default
-        else:
-            return "I can answer questions about pregnancy, breastfeeding, side effects, emergency contraception, cancer, STIs, method comparisons, and duration. Please ask something specific."
+    # Groq client (cached)
+    @st.cache_resource
+    def get_groq_client():
+        api_key = os.getenv("GROQ_API_KEY")
+        if not api_key:
+            st.warning("GROQ_API_KEY not found. Please add it to .env file or Streamlit secrets.")
+            return None
+        return Groq(api_key=api_key)
     
     if user_question:
-        # Add user message
         st.session_state.chat_history.append({"role": "user", "content": user_question})
-        # Generate and add bot response
-        bot_reply = get_bot_response(user_question)
-        st.session_state.chat_history.append({"role": "bot", "content": bot_reply})
+        client = get_groq_client()
+        if client:
+            try:
+                # Prepare conversation context
+                messages = [
+                    {"role": "system", "content": "You are Afya, a friendly and knowledgeable assistant for family planning in Kenya. Answer questions about contraception, WHO MEC guidelines, pregnancy, STIs, breastfeeding, side effects, emergency contraception, cancer history, and method duration. Keep answers clear, concise (2-3 sentences), and medically accurate. If unsure, suggest consulting a healthcare provider."}
+                ]
+                # Add last 5 exchanges for context (avoid token overload)
+                for msg in st.session_state.chat_history[-10:]:
+                    messages.append({"role": msg["role"], "content": msg["content"]})
+                
+                chat_completion = client.chat.completions.create(
+                    messages=messages,
+                    model="llama-3.3-70b-versatile",
+                    temperature=0.7,
+                    max_tokens=500,
+                )
+                bot_reply = chat_completion.choices[0].message.content
+            except Exception as e:
+                bot_reply = f"I'm sorry, I'm having trouble right now. Error: {str(e)}. Please try again later."
+        else:
+            bot_reply = "I need a valid API key to work. Please set GROQ_API_KEY in your environment."
+        st.session_state.chat_history.append({"role": "assistant", "content": bot_reply})
         st.rerun()
 
 # ============================================
-# User input form (all questions remain)
+# User input form (unchanged, all fields)
 # ============================================
 col1, col2 = st.columns(2)
 with col1:
@@ -176,7 +174,7 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
             "duration_pref": duration_pref
         }
         top3 = rank_methods(user_data, preference)
-
+    
     st.metric("📊 Hormonal suitability score", f"{prob:.0%}")
     if prob > 60:
         st.info("🔍 **Why?** Your profile suggests hormonal methods are often well‑tolerated.")
