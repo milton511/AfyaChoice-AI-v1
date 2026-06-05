@@ -1,7 +1,7 @@
-﻿import streamlit as st
+import streamlit as st
 from recommend import rank_methods
 
-st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
+st.set_page_config(page_title="AfyaChoice AI", page_icon="??", layout="wide")
 
 # Pink theme + custom CSS
 st.markdown("""
@@ -17,12 +17,12 @@ st.markdown("""
 # Sidebar: Team info
 with st.sidebar:
     st.image("https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=100", width=80)
-    st.markdown("## 👩‍👩‍👧‍👦 Team AfyaChoice")
-    st.markdown("- Cynthia Matuli\n- Silas\n- [Add other names]")
+    st.markdown("## ?? AfyaChoice AI")
+    
     st.markdown("---")
-    st.markdown("📍 Kenyan FP Guidelines 2025")
+    st.markdown("?? Kenyan FP Guidelines 2025")
 
-st.title("🌸 AfyaChoice AI – Family Planning Decision Support")
+st.title("?? AfyaChoice AI � Family Planning Decision Support")
 st.markdown("Based on **Kenyan FP Guidelines** + **WHO MEC** + **Your Preferences**")
 
 # User input form
@@ -38,7 +38,7 @@ with col2:
     migraine = st.radio("Migraine with aura?", ["No", "Yes"])
     preference = st.selectbox("Your preference", ["No preference", "Long-acting", "Short-term", "No hormones"])
 
-if st.button("🌸 Get my recommendations"):
+if st.button("?? Get my recommendations"):
     with st.spinner("Analyzing..."):
         user_data = {
             "age_group_clinical": age_group,
@@ -51,12 +51,12 @@ if st.button("🌸 Get my recommendations"):
         }
         top3 = rank_methods(user_data, preference)
     
-    st.subheader("🌟 Your top 3 recommendations")
+    st.subheader("?? Your top 3 recommendations")
     for i, m in enumerate(top3, 1):
         with st.container():
             st.markdown(f'<div class="rec-card">', unsafe_allow_html=True)
-            st.markdown(f"### {i}. {m['name']} {'💊' if m['type']=='hormonal' else '🛡️'}")
+            st.markdown(f"### {i}. {m['name']} {'??' if m['type']=='hormonal' else '???'}")
             st.markdown(f"**Effectiveness:** {m['effectiveness']}%")
-            st.markdown(f"**✅ Benefits:** {', '.join(m['benefits'])}")
-            st.markdown(f"**⚠️ Side effects:** {', '.join(m['side_effects'])}")
+            st.markdown(f"**? Benefits:** {', '.join(m['benefits'])}")
+            st.markdown(f"**?? Side effects:** {', '.join(m['side_effects'])}")
             st.markdown('</div>', unsafe_allow_html=True)

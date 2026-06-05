@@ -1,74 +1,60 @@
 ﻿{
-  "copper_iud": {
-    "name": "Copper IUD",
-    "type": "long_acting_reversible",
-    "hormonal": false,
-    "effectiveness": 99,
-    "advantages": ["No hormones", "Works immediately", "Lasts 10 years", "Reversible"],
-    "side_effects": ["Heavier periods", "More cramping first 3-6 months"]
-  },
-  "hormonal_iud": {
-    "name": "Hormonal IUD",
-    "type": "long_acting_reversible",
-    "hormonal": true,
-    "effectiveness": 99,
-    "advantages": ["Lighter periods", "Less cramping", "Lasts 5 years"],
-    "side_effects": ["Irregular bleeding first months", "Headaches", "Breast tenderness"]
-  },
-  "implant": {
-    "name": "Implant",
-    "type": "long_acting_reversible",
-    "hormonal": true,
-    "effectiveness": 99,
-    "advantages": ["Highly effective", "Discreet", "No daily action", "Works 3-5 years"],
-    "side_effects": ["Irregular bleeding", "Weight gain possible", "Mood changes"]
-  },
-  "injectable": {
-    "name": "Injectable (DMPA)",
-    "type": "short_acting",
-    "hormonal": true,
-    "effectiveness": 94,
-    "advantages": ["Private", "Every 3 months", "No daily pill", "May stop periods"],
-    "side_effects": ["Weight gain", "Delayed return to fertility", "Irregular bleeding"]
-  },
-  "combined_pill": {
-    "name": "Combined Pill",
-    "type": "short_acting",
-    "hormonal": true,
-    "effectiveness": 91,
-    "advantages": ["Regulates periods", "Less cramping", "May improve acne"],
-    "side_effects": ["Nausea first months", "Headaches", "Blood clot risk (rare)"]
-  },
-  "progestin_pill": {
-    "name": "Progestin-Only Pill",
-    "type": "short_acting",
-    "hormonal": true,
-    "effectiveness": 91,
-    "advantages": ["Safe while breastfeeding", "No estrogen", "Can use with migraines"],
-    "side_effects": ["Irregular bleeding", "Headaches", "Breast tenderness"]
-  },
-  "male_condom": {
-    "name": "Male Condom",
-    "type": "barrier",
-    "hormonal": false,
-    "effectiveness": 82,
-    "advantages": ["STI protection", "No hormones", "No prescription"],
-    "side_effects": ["Reduced sensation possible", "Latex allergy"]
-  },
-  "female_condom": {
-    "name": "Female Condom",
-    "type": "barrier",
-    "hormonal": false,
-    "effectiveness": 79,
-    "advantages": ["STI protection", "Woman-controlled", "No hormones"],
-    "side_effects": ["Can be noisy", "Requires practice"]
-  },
-  "lam": {
-    "name": "Lactational Amenorrhea Method",
-    "type": "behavioral",
-    "hormonal": false,
-    "effectiveness": 98,
-    "advantages": ["No cost", "No hormones", "Works with exclusive breastfeeding"],
-    "side_effects": ["Requires exclusive breastfeeding", "Only 6 months"]
-  }
+  "methods": [
+    {
+      "name": "Combined Pill",
+      "type": "hormonal",
+      "effectiveness": 91,
+      "benefits": ["Highly effective", "Regulates periods", "Reduces cramps"],
+      "side_effects": ["Nausea", "Headaches", "Mood changes"]
+    },
+    {
+      "name": "Progestin-Only Pill",
+      "type": "hormonal",
+      "effectiveness": 91,
+      "benefits": ["Safe while breastfeeding", "Fewer hormonal side effects", "Can be used with migraine"],
+      "side_effects": ["Irregular bleeding", "Bloating", "Acne"]
+    },
+    {
+      "name": "Implant",
+      "type": "hormonal",
+      "effectiveness": 99,
+      "benefits": ["Lasts 3-5 years", "Very low failure rate", "Reversible"],
+      "side_effects": ["Irregular bleeding", "Weight gain", "Mood changes"]
+    },
+    {
+      "name": "Injectables",
+      "type": "hormonal",
+      "effectiveness": 94,
+      "benefits": ["Private", "Every 3 months", "Reduces period pain"],
+      "side_effects": ["Delayed return to fertility", "Weight gain", "Bone density concerns"]
+    },
+    {
+      "name": "Male Condom",
+      "type": "non-hormonal",
+      "effectiveness": 85,
+      "benefits": ["Protects against STIs", "No hormones", "Readily available"],
+      "side_effects": ["None", "Can break", "May reduce sensation"]
+    },
+    {
+      "name": "Female Condom",
+      "type": "non-hormonal",
+      "effectiveness": 79,
+      "benefits": ["Woman-controlled", "No hormones", "Protects against STIs"],
+      "side_effects": ["Can be noisy", "May slip", "Requires practice"]
+    },
+    {
+      "name": "Copper IUD",
+      "type": "non-hormonal",
+      "effectiveness": 99,
+      "benefits": ["Lasts 10-12 years", "No hormones", "Emergency contraception"],
+      "side_effects": ["Heavier periods", "More cramps", "Requires insertion"]
+    },
+    {
+      "name": "Fertility Awareness",
+      "type": "non-hormonal",
+      "effectiveness": 76,
+      "benefits": ["No medical side effects", "Low cost", "Increases body awareness"],
+      "side_effects": ["Requires daily tracking", "Less effective", "No STI protection"]
+    }
+  ]
 }
