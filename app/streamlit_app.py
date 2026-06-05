@@ -5,29 +5,79 @@ from ml_model import hormonal_probability
 
 st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 
+# Theme state
 if "theme" not in st.session_state:
     st.session_state.theme = "light"
 
+# Chatbot messages
+if "chat_messages" not in st.session_state:
+    st.session_state.chat_messages = []
+
+# Simple FAQ responses
+def chatbot_response(question):
+    q = question.lower()
+    if "breastfeeding" in q and ("pill" in q or "hormonal" in q):
+        return "Progestin-only pills are safe during breastfeeding. Avoid combined pills."
+    elif "iud" in q and "pain" in q:
+        return "Some cramping is normal after IUD insertion. Use ibuprofen if needed."
+    elif "side effect" in q:
+        return "Side effects vary by method. Common ones include irregular bleeding, headaches, or mood changes."
+    elif "effectiveness" in q:
+        return "Implant and IUD are >99% effective. Condoms are about 85% with typical use."
+    elif "emergency" in q:
+        return "Emergency contraceptive pills (ECPs) or Copper IUD can be used up to 5 days after unprotected sex."
+    elif "cancer" in q:
+        return "Hormonal methods may not be recommended if you have a history of breast cancer."
+    else:
+        return "Please ask about specific methods, side effects, breastfeeding, or emergency contraception."
+
+# Theme toggle
 with st.sidebar:
     if st.button("🌓 Toggle Dark/Light Theme"):
         st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
         st.rerun()
+    st.markdown("---")
+    try:
+        logo = Image.open("assets/doctor.jpg")
+        st.image(logo, width=100)
+    except:
+        st.image("https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=100", width=80)
+    st.markdown("## 🌸 AfyaChoice AI")
+    st.markdown("📍 Kenyan FP Guidelines 2025")
+    st.markdown("---")
+    
+    # Chatbot section
+    st.markdown("### 💬 Ask Afya (FAQ Bot)")
+    user_question = st.text_input("Your question:", key="chat_input")
+    if st.button("Ask", key="ask_btn"):
+        if user_question:
+            answer = chatbot_response(user_question)
+            st.session_state.chat_messages.append(("You", user_question))
+            st.session_state.chat_messages.append(("Afya", answer))
+    for speaker, msg in st.session_state.chat_messages[-10:]:
+        st.markdown(f"**{speaker}:** {msg}")
 
+# ============================================
+# CSS – high contrast light theme fix
+# ============================================
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background-color: #FFF0F5; }
         [data-testid="stSidebar"] { background-color: #FFE4EC; }
         .rec-card { background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        /* Force all text to dark */
-        html, body, [class*="css"], p, div, span, label, .stRadio label, .stSelectbox label, .stMarkdown p, .stRadio div, .stSelectbox div, .stSelectbox [data-baseweb="select"] span, .stRadio [role="radiogroup"] label {
-            color: #1a1a1a !important;
-        }
-        .stRadio div[role="radiogroup"] div {
-            border-color: #1a1a1a !important;
-        }
-        input, textarea, select, .stSelectbox [data-baseweb="select"] div {
+        html, body, [class*="css"] { color: #000000 !important; }
+        .stRadio label, .stSelectbox label, .stMarkdown p, label {
             color: #000000 !important;
-            background-color: white !important;
+            font-weight: 500 !important;
+        }
+        .stRadio div[role="radiogroup"] label, .stSelectbox div[data-baseweb="select"] {
+            color: #000000 !important;
+            background-color: #ffffff !important;
+        }
+        input, textarea, select {
+            color: #000000 !important;
+            background-color: #ffffff !important;
+            border: 1px solid #cccccc !important;
         }
         .stButton > button {
             background-color: #FF69B4;
@@ -59,16 +109,6 @@ else:
 
 st.markdown(f"<style>{theme_css}</style>", unsafe_allow_html=True)
 
-with st.sidebar:
-    try:
-        logo = Image.open("assets/doctor.jpg")
-        st.image(logo, width=100)
-    except:
-        st.image("https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=100", width=80)
-    st.markdown("## 🌸 AfyaChoice AI")
-    st.markdown("---")
-    st.markdown("📍 Kenyan FP Guidelines 2025")
-
 st.title("🌸 AfyaChoice AI – Family Planning Decision Support")
 st.markdown("Based on **Kenyan FP Guidelines** + **WHO MEC** + **Your Preferences**")
 
@@ -78,6 +118,9 @@ try:
 except:
     pass
 
+# ============================================
+# User input form
+# ============================================
 col1, col2 = st.columns(2)
 with col1:
     age_group = st.selectbox("Age group", ["Adolescent (15-19)", "Peak Reproductive (20-34)", "Advanced Maternal Age (35-49)"])
@@ -95,6 +138,9 @@ with col2:
     duration_pref = st.selectbox("Preferred method duration", ["Short-term (<1 year)", "Medium (1-3 years)", "Long-term (3+ years)", "No preference"])
     preference = st.selectbox("Your preference (hormones vs non-hormones)", ["No preference", "Long-acting", "Short-term", "No hormones"])
 
+# ============================================
+# Prediction button
+# ============================================
 if st.button("🌸 Get my recommendations", use_container_width=True):
     with st.spinner("Analyzing your profile..."):
         prob = hormonal_probability(age_group, edu, marital, ever_pregnant)
@@ -134,6 +180,7 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
         st.markdown('</div>', unsafe_allow_html=True)
         st.markdown("---")
     
+    # Pill reminder demo
     if any("Pill" in m['name'] for m in top3):
         st.subheader("💊 Pill reminder (optional)")
         reminder_date = st.date_input("Set a daily reminder start date")
