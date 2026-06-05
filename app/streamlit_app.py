@@ -2,25 +2,39 @@
 from PIL import Image
 from recommend import rank_methods
 from ml_model import hormonal_probability
+from pathlib import Path
 from dotenv import load_dotenv
 import os
 import datetime
 from groq import Groq
 
-load_dotenv()
+# Load environment variables (local .env or Streamlit secrets)
+env_path = Path(__file__).parent.parent / ".env"
+if env_path.exists():
+    load_dotenv(dotenv_path=env_path)
 
 st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 
-# Theme state
+# ---------- Theme state ----------
 if "theme" not in st.session_state:
     st.session_state.theme = "light"
 
+# ---------- Sidebar with theme toggle + logo ----------
 with st.sidebar:
     if st.button("🌓 Toggle Dark/Light Theme"):
         st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
         st.rerun()
+    
+    try:
+        logo = Image.open("assets/doctor.jpg")
+        st.image(logo, width=100)
+    except:
+        st.image("https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=100", width=80)
+    st.markdown("## 🌸 AfyaChoice AI")
+    st.markdown("---")
+    st.markdown("📍 Kenyan FP Guidelines 2025")
 
-# Light/dark CSS (fixed contrast)
+# ---------- CSS for themes (high contrast) ----------
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background-color: #FFF0F5; }
@@ -64,17 +78,7 @@ else:
 
 st.markdown(f"<style>{theme_css}</style>", unsafe_allow_html=True)
 
-# Sidebar (logo unchanged)
-with st.sidebar:
-    try:
-        logo = Image.open("assets/doctor.jpg")
-        st.image(logo, width=100)
-    except:
-        st.image("https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=100", width=80)
-    st.markdown("## 🌸 AfyaChoice AI")
-    st.markdown("---")
-    st.markdown("📍 Kenyan FP Guidelines 2025")
-
+# ---------- Header + banner ----------
 st.title("🌸 AfyaChoice AI – Family Planning Decision Support")
 st.markdown("Based on **Kenyan FP Guidelines** + **WHO MEC** + **Your Preferences**")
 
@@ -84,10 +88,8 @@ try:
 except:
     pass
 
-# ============================================
-# CHATBOT with Groq (real LLM)
-# ============================================
-with st.expander("💬 Ask Afya (FAQ Bot) - Ask anything about family planning"):
+# ---------- CHATBOT SECTION (with Groq LLM) ----------
+with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=False):
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
     
@@ -99,14 +101,14 @@ with st.expander("💬 Ask Afya (FAQ Bot) - Ask anything about family planning")
             st.markdown(f"**Afya:** {msg['content']}")
         st.markdown("---")
     
-    user_question = st.text_input("Your question:", key="chat_input")
+    user_question = st.text_input("Your question:", key="chat_input", placeholder="e.g., Tell me about pregnancy, side effects of pills, or emergency contraception...")
     
-    # Groq client (cached)
+    # Initialize Groq client (cached)
     @st.cache_resource
     def get_groq_client():
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
-            st.warning("GROQ_API_KEY not found. Please add it to .env file or Streamlit secrets.")
+            st.warning("⚠️ GROQ_API_KEY not found. Please add it to .env or Streamlit secrets.")
             return None
         return Groq(api_key=api_key)
     
@@ -115,12 +117,18 @@ with st.expander("💬 Ask Afya (FAQ Bot) - Ask anything about family planning")
         client = get_groq_client()
         if client:
             try:
-                # Prepare conversation context
-                messages = [
-                    {"role": "system", "content": "You are Afya, a friendly and knowledgeable assistant for family planning in Kenya. Answer questions about contraception, WHO MEC guidelines, pregnancy, STIs, breastfeeding, side effects, emergency contraception, cancer history, and method duration. Keep answers clear, concise (2-3 sentences), and medically accurate. If unsure, suggest consulting a healthcare provider."}
-                ]
-                # Add last 5 exchanges for context (avoid token overload)
-                for msg in st.session_state.chat_history[-10:]:
+                # System prompt that instructs the bot to answer pregnancy questions specifically
+                system_prompt = (
+                    "You are Afya, a knowledgeable and friendly family planning assistant for Kenyan women. "
+                    "Answer questions clearly, concisely, and accurately. "
+                    "When asked about pregnancy, give detailed information about trimesters, prenatal care, symptoms, nutrition, "
+                    "and when to see a doctor. Also answer about contraception methods, side effects, breastfeeding, STIs, "
+                    "emergency contraception, and WHO MEC guidelines. Keep answers 3-5 sentences unless more detail is requested. "
+                    "Be warm and supportive."
+                )
+                messages = [{"role": "system", "content": system_prompt}]
+                # Include last 6 exchanges for context
+                for msg in st.session_state.chat_history[-12:]:
                     messages.append({"role": msg["role"], "content": msg["content"]})
                 
                 chat_completion = client.chat.completions.create(
@@ -131,16 +139,19 @@ with st.expander("💬 Ask Afya (FAQ Bot) - Ask anything about family planning")
                 )
                 bot_reply = chat_completion.choices[0].message.content
             except Exception as e:
-                bot_reply = f"I'm sorry, I'm having trouble right now. Error: {str(e)}. Please try again later."
+                bot_reply = f"Sorry, I'm having trouble right now. Error: {str(e)}. Please try again later."
         else:
-            bot_reply = "I need a valid API key to work. Please set GROQ_API_KEY in your environment."
+            bot_reply = "I need a valid API key to work. Please set GROQ_API_KEY in your environment or Streamlit secrets."
+        
         st.session_state.chat_history.append({"role": "assistant", "content": bot_reply})
         st.rerun()
 
-# ============================================
-# User input form (unchanged, all fields)
-# ============================================
-col1, col2 = st.columns(2)
+# ---------- USER INPUT FORM (two columns) ----------
+st.markdown("---")
+st.subheader("📝 Your Health & Preference Profile")
+
+col1, col2 = st.columns(2, gap="large")
+
 with col1:
     age_group = st.selectbox("Age group", ["Adolescent (15-19)", "Peak Reproductive (20-34)", "Advanced Maternal Age (35-49)"])
     edu = st.selectbox("Education", ["Primary", "Secondary", "Tertiary"])
@@ -157,6 +168,7 @@ with col2:
     duration_pref = st.selectbox("Preferred method duration", ["Short-term (<1 year)", "Medium (1-3 years)", "Long-term (3+ years)", "No preference"])
     preference = st.selectbox("Your preference (hormones vs non-hormones)", ["No preference", "Long-acting", "Short-term", "No hormones"])
 
+# ---------- RECOMMENDATION BUTTON ----------
 if st.button("🌸 Get my recommendations", use_container_width=True):
     with st.spinner("Analyzing your profile..."):
         prob = hormonal_probability(age_group, edu, marital, ever_pregnant)
@@ -195,7 +207,7 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
         st.markdown('</div>', unsafe_allow_html=True)
         st.markdown("---")
     
-    # Pill reminder
+    # Pill reminder (if pill methods are recommended)
     if any("Pill" in m['name'] for m in top3):
         st.subheader("💊 Pill reminder (optional)")
         reminder_date = st.date_input("Set a daily reminder start date")
@@ -205,3 +217,7 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
             title = "Take your contraceptive pill"
             url = f"https://calendar.google.com/calendar/render?action=TEMPLATE&text={title}&dates={start}/{end}"
             st.markdown(f"[Click here to add to Google Calendar]({url})", unsafe_allow_html=True)
+
+# ---------- Footer ----------
+st.markdown("---")
+st.caption("🔒 Your answers are private. This tool follows Kenyan FP guidelines and WHO MEC. Always consult a healthcare provider for final decisions.")
