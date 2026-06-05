@@ -2,11 +2,13 @@
 import os
 from ml_model import hormonal_probability
 from rules import get_mec_score
+import streamlit as st
 
+@st.cache_data(ttl=3600)
 def load_methods():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(base_dir, "data", "methods.json")
-    with open(path, "r") as f:
+    json_path = os.path.join(base_dir, "data", "methods.json")
+    with open(json_path, "r") as f:
         return json.load(f)["methods"]
 
 def rank_methods(user_data, user_preference="No preference"):
