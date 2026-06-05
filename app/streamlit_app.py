@@ -15,14 +15,18 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Sidebar: Team info
-with st.sidebar:
-    st.image("https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=100", width=80)
-    st.markdown("## ?? AfyaChoice AI")
-    
-    st.markdown("---")
-    st.markdown("?? Kenyan FP Guidelines 2025")
+from PIL import Image   # make sure this is at the top of the file with other imports
 
-st.title("?? AfyaChoice AI � Family Planning Decision Support")
+# ... later in the sidebar:
+logo = Image.open("app/assets/doctor.jpg")
+st.sidebar.image(logo, width=100)
+st.sidebar.markdown("## 🌸 AfyaChoice AI")
+st.sidebar.markdown("---")
+st.sidebar.markdown("📍 Kenyan FP Guidelines 2025")
+
+st.title("?? AfyaChoice AI � Family Planning Decision Support")
+banner = Image.open("app/assets/mother.jpg")
+st.image(banner, use_container_width=True)
 st.markdown("Based on **Kenyan FP Guidelines** + **WHO MEC** + **Your Preferences**")
 
 # User input form
