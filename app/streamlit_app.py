@@ -5,23 +5,64 @@ from ml_model import hormonal_probability
 
 st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 
-# CSS (same as before, keep it)
-st.markdown("""
-<style>
-    .stApp { background-color: #FFF0F5; }
-    html, body, [class*="css"] { color: #2d2d2d !important; }
-    h1, h2, h3, h4, h5, h6 { color: #C71585 !important; }
-    .stButton > button { background-color: #FF69B4; color: white !important; border-radius: 10px; padding: 10px 24px; font-weight: bold; }
-    .stButton > button:hover { background-color: #FF1493; color: white !important; }
-    [data-testid="stSidebar"] { background-color: #FFE4EC; }
-    [data-testid="stSidebar"] * { color: #1a1a1a !important; }
-    .rec-card { background-color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: #000000 !important; }
-    .rec-card * { color: #000000 !important; }
-    label, .stRadio label, .stSelectbox label, .stMarkdown p { color: #2d2d2d !important; }
-    input, textarea, select { color: #000000 !important; background-color: white !important; }
-</style>
-""", unsafe_allow_html=True)
+# Theme state (default: "light")
+if "theme" not in st.session_state:
+    st.session_state.theme = "light"
 
+# Theme toggle in sidebar
+with st.sidebar:
+    if st.button("🌓 Toggle Dark/Light Theme"):
+        st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
+        st.rerun()
+
+# ============================================
+# CSS with light/dark themes + high contrast
+# ============================================
+if st.session_state.theme == "light":
+    theme_css = """
+        .stApp { background-color: #FFF0F5; }
+        [data-testid="stSidebar"] { background-color: #FFE4EC; }
+        .rec-card { background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        html, body, [class*="css"], label, .stRadio label, .stSelectbox label, .stMarkdown p {
+            color: #1a1a1a !important;
+        }
+        input, textarea, select {
+            color: #000000 !important;
+            background-color: white !important;
+        }
+        .stButton > button {
+            background-color: #FF69B4;
+            color: white !important;
+        }
+        h1, h2, h3, h4, h5, h6 { color: #C71585 !important; }
+    """
+else:
+    theme_css = """
+        .stApp { background-color: #1e1e2f; }
+        [data-testid="stSidebar"] { background-color: #2a2a3b; }
+        .rec-card { background-color: #2d2d44; box-shadow: 0 2px 4px rgba(255,255,255,0.1); }
+        html, body, [class*="css"], label, .stRadio label, .stSelectbox label, .stMarkdown p {
+            color: #f0f0f0 !important;
+        }
+        input, textarea, select {
+            color: #ffffff !important;
+            background-color: #3a3a55 !important;
+        }
+        .stButton > button {
+            background-color: #FF69B4;
+            color: white !important;
+        }
+        h1, h2, h3, h4, h5, h6 { color: #FFB6C1 !important; }
+        .stRadio div[role="radiogroup"] label, .stSelectbox div[data-baseweb="select"] {
+            color: white !important;
+        }
+    """
+
+st.markdown(f"<style>{theme_css}</style>", unsafe_allow_html=True)
+
+# ============================================
+# Sidebar logo (unchanged)
+# ============================================
 with st.sidebar:
     try:
         logo = Image.open("assets/doctor.jpg")
@@ -42,7 +83,7 @@ except:
     pass
 
 # ============================================
-# User input form – expanded
+# User input form (keep your existing fields)
 # ============================================
 col1, col2 = st.columns(2)
 with col1:
@@ -84,9 +125,8 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
 
     st.metric("📊 Hormonal suitability score", f"{prob:.0%}")
     
-    # Explain the score
     if prob > 60:
-        st.info("🔍 **Why?** Your profile (age, pregnancy history, education) suggests hormonal methods are often well‑tolerated.")
+        st.info("🔍 **Why?** Your profile suggests hormonal methods are often well‑tolerated.")
     elif prob < 40:
         st.info("🔍 **Why?** Your profile suggests non‑hormonal methods may be more suitable – shown below.")
     else:
@@ -109,7 +149,6 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
         st.subheader("💊 Pill reminder (optional)")
         reminder_date = st.date_input("Set a daily reminder start date")
         if st.button("Add to Google Calendar"):
-            # Create Google Calendar event link
             import datetime
             start = reminder_date.strftime("%Y%m%dT100000")
             end = (reminder_date + datetime.timedelta(days=1)).strftime("%Y%m%dT100000")
