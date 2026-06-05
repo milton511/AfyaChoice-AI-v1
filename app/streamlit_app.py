@@ -5,28 +5,27 @@ from ml_model import hormonal_probability
 
 st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 
-# Theme state (default: "light")
 if "theme" not in st.session_state:
     st.session_state.theme = "light"
 
-# Theme toggle in sidebar
 with st.sidebar:
     if st.button("🌓 Toggle Dark/Light Theme"):
         st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
         st.rerun()
 
-# ============================================
-# CSS with light/dark themes + high contrast
-# ============================================
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background-color: #FFF0F5; }
         [data-testid="stSidebar"] { background-color: #FFE4EC; }
         .rec-card { background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        html, body, [class*="css"], label, .stRadio label, .stSelectbox label, .stMarkdown p {
+        /* Force all text to dark */
+        html, body, [class*="css"], p, div, span, label, .stRadio label, .stSelectbox label, .stMarkdown p, .stRadio div, .stSelectbox div, .stSelectbox [data-baseweb="select"] span, .stRadio [role="radiogroup"] label {
             color: #1a1a1a !important;
         }
-        input, textarea, select {
+        .stRadio div[role="radiogroup"] div {
+            border-color: #1a1a1a !important;
+        }
+        input, textarea, select, .stSelectbox [data-baseweb="select"] div {
             color: #000000 !important;
             background-color: white !important;
         }
@@ -60,9 +59,6 @@ else:
 
 st.markdown(f"<style>{theme_css}</style>", unsafe_allow_html=True)
 
-# ============================================
-# Sidebar logo (unchanged)
-# ============================================
 with st.sidebar:
     try:
         logo = Image.open("assets/doctor.jpg")
@@ -82,9 +78,6 @@ try:
 except:
     pass
 
-# ============================================
-# User input form (keep your existing fields)
-# ============================================
 col1, col2 = st.columns(2)
 with col1:
     age_group = st.selectbox("Age group", ["Adolescent (15-19)", "Peak Reproductive (20-34)", "Advanced Maternal Age (35-49)"])
@@ -102,9 +95,6 @@ with col2:
     duration_pref = st.selectbox("Preferred method duration", ["Short-term (<1 year)", "Medium (1-3 years)", "Long-term (3+ years)", "No preference"])
     preference = st.selectbox("Your preference (hormones vs non-hormones)", ["No preference", "Long-acting", "Short-term", "No hormones"])
 
-# ============================================
-# Prediction button
-# ============================================
 if st.button("🌸 Get my recommendations", use_container_width=True):
     with st.spinner("Analyzing your profile..."):
         prob = hormonal_probability(age_group, edu, marital, ever_pregnant)
@@ -144,7 +134,6 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
         st.markdown('</div>', unsafe_allow_html=True)
         st.markdown("---")
     
-    # Pill reminder demo
     if any("Pill" in m['name'] for m in top3):
         st.subheader("💊 Pill reminder (optional)")
         reminder_date = st.date_input("Set a daily reminder start date")
