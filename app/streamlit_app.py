@@ -21,7 +21,7 @@ with st.sidebar:
     except:
         st.image("https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=100", width=80)
     st.markdown("## 🌸 AfyaChoice AI")
-    st.markdown("---")
+    st.markdown("<hr style=\"margin: 5px 0;\">", unsafe_allow_html=True)
     st.markdown("📍 Kenyan FP Guidelines 2025")
     st.markdown("🏥 **County:** Nairobi (local resources available)")
 
@@ -67,7 +67,7 @@ try:
 except:
     pass
 
-st.markdown("---")
+st.markdown("<hr style=\"margin: 5px 0;\">", unsafe_allow_html=True)
 st.subheader("📝 Your Health & Preference Profile")
     st.info("📌 Please select all options that apply. No fields are pre‑filled with your personal data.")
 
@@ -159,7 +159,7 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
         if 'explanation' in m:
             st.markdown(f"**📖 Why this method:** {m['explanation']}")
         st.markdown('</div>', unsafe_allow_html=True)
-        st.markdown("---")
+        st.markdown("<hr style=\"margin: 5px 0;\">", unsafe_allow_html=True)
     
     # Pill reminder if a pill method is in top 3
     if any("Pill" in m['name'] for m in top3):
@@ -172,7 +172,7 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
             url = f"https://calendar.google.com/calendar/render?action=TEMPLATE&text={title}&dates={start}/{end}"
             st.markdown(f"[Click here to add to Google Calendar]({url})", unsafe_allow_html=True)
 
-st.markdown("---")
+st.markdown("<hr style=\"margin: 5px 0;\">", unsafe_allow_html=True)
 st.caption("👩‍👩‍👧‍👦 Team AfyaChoice: Cynthia, Silas, Felix, Mike, Felicity")
 # v2.0 - calendar fix applied
 
