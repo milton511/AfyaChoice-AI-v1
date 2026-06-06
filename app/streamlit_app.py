@@ -4,7 +4,8 @@ from recommend import rank_methods
 from ml_model import hormonal_probability
 import os
 import datetime
-from groq import Groq
+import requests
+import json
 
 st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 
@@ -27,7 +28,7 @@ with st.sidebar:
     st.markdown("📍 Kenyan FP Guidelines 2025")
     st.markdown("🏥 **County:** Nairobi (local resources available)")
 
-# CSS for professional medical look + theme
+# CSS
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EC 100%); }
@@ -65,7 +66,7 @@ try:
 except:
     pass
 
-# ---------- Chatbot ----------
+# ---------- Chatbot using direct requests ----------
 with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=False):
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
@@ -74,44 +75,56 @@ with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=Fa
         st.markdown("---")
     user_question = st.text_input("Your question:", key="chat_input")
 
-    @st.cache_resource
-    def get_groq_client():
-        # Try environment variable first (local .env), then Streamlit secrets
+    def get_groq_response(messages):
+        # Get API key from secrets or env
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key and hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
             api_key = st.secrets["GROQ_API_KEY"]
         if not api_key:
-            st.warning("⚠️ GROQ_API_KEY not found. Set it in Streamlit secrets or .env file.")
-            return None
-        return Groq(api_key=api_key)
+            return None, "API key missing. Set GROQ_API_KEY in Streamlit secrets."
+
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "model": "llama-3.3-70b-versatile",
+            "messages": messages,
+            "temperature": 0.7,
+            "max_tokens": 500
+        }
+        try:
+            response = requests.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=10
+            )
+            if response.status_code == 200:
+                return response.json()["choices"][0]["message"]["content"], None
+            else:
+                return None, f"API error {response.status_code}: {response.text}"
+        except Exception as e:
+            return None, f"Request error: {str(e)}"
 
     if user_question:
         st.session_state.chat_history.append({"role": "user", "content": user_question})
-        client = get_groq_client()
-        if client:
-            try:
-                system_prompt = "You are Afya, a Kenyan family planning assistant. Answer clearly and concisely about pregnancy, contraception, side effects, breastfeeding, STIs, emergency contraception, and WHO MEC guidelines. Keep answers 3-5 sentences."
-                messages = [{"role": "system", "content": system_prompt}]
-                for msg in st.session_state.chat_history[-12:]:
-                    messages.append({"role": msg["role"], "content": msg["content"]})
-                response = client.chat.completions.create(
-                    model="llama-3.3-70b-versatile",
-                    messages=messages,
-                    temperature=0.7,
-                    max_tokens=500
-                )
-                bot_reply = response.choices[0].message.content
-            except Exception as e:
-                bot_reply = f"Error: {str(e)}. Please try again."
+        system_prompt = "You are Afya, a Kenyan family planning assistant. Answer clearly and concisely about pregnancy, contraception, side effects, breastfeeding, STIs, emergency contraception, and WHO MEC guidelines. Keep answers 3-5 sentences."
+        messages = [{"role": "system", "content": system_prompt}]
+        for msg in st.session_state.chat_history[-12:]:
+            messages.append({"role": msg["role"], "content": msg["content"]})
+        reply, error = get_groq_response(messages)
+        if reply:
+            bot_reply = reply
         else:
-            bot_reply = "API key missing. Please add GROQ_API_KEY to Streamlit secrets."
+            bot_reply = f"Sorry, I encountered an error: {error}"
         st.session_state.chat_history.append({"role": "assistant", "content": bot_reply})
         st.rerun()
 
+# ---------- Rest of the app (unchanged) ----------
 st.markdown("---")
 st.subheader("📝 Your Health & Preference Profile")
 
-# Input form
 col1, col2 = st.columns(2)
 with col1:
     age_group = st.selectbox("Age group", ["Adolescent (15-19)", "Peak Reproductive (20-34)", "Advanced Maternal Age (35-49)"])
