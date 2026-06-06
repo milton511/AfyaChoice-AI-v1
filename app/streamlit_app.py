@@ -25,7 +25,7 @@ with st.sidebar:
     st.markdown("📍 Kenyan FP Guidelines 2025")
     st.markdown("🏥 **County:** Nairobi (local resources available)")
 
-# ---------- CSS FOR LIGHT/DARK THEMES ----------
+# ---------- CSS FOR LIGHT/DARK THEMES (fixed contrast) ----------
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EC 100%); }
@@ -79,7 +79,6 @@ with col1:
     marital = st.selectbox("Marital status", ["Married", "Never married", "Other"])
     ever_pregnant = st.radio("Ever been pregnant?", ["No", "Yes"])
     sti_risk = st.radio("At risk of STI / have an STI?", ["No", "Yes"])
-    cancer_history = st.selectbox("Cancer history", ["None", "Breast cancer", "Cervical cancer", "Other cancer"])
     county = st.selectbox("Your county", [
         "Nairobi", "Mombasa", "Kisumu", "Nakuru", "Kiambu", "Machakos", "Uasin Gishu",
         "Kakamega", "Bungoma", "Meru", "Kilifi", "Kitui", "Embu", "Turkana", "Wajir"
@@ -87,18 +86,20 @@ with col1:
 
 with col2:
     breastfeeding = st.radio("Currently breastfeeding?", ["No", "Yes"])
-    hypertension = st.radio("High blood pressure?", ["No", "Yes"])
-    migraine = st.radio("Migraine with aura?", ["No", "Yes"])
+    # Simplified migraine question (lay language)
+    migraine = st.radio("Do you get severe headaches that also affect your vision (seeing flashes, zigzag lines, or temporary blind spots)?", ["No", "Yes"])
+    # Chronic conditions multiselect (replaces separate hypertension & cancer)
+    chronic_conditions = st.multiselect(
+        "Do you have any of these chronic conditions? (Select all that apply)",
+        ["Diabetes", "High blood pressure (hypertension)", "Cancer (any type)", 
+         "Mental health condition", "HIV", "Convulsion disorder (epilepsy)"]
+    )
     next_child = st.radio("Plan next child?", ["Within 1 year", "1-3 years", "3+ years", "Not planning"])
     duration_pref = st.selectbox("Preferred method duration", ["Short-term (<1 year)", "Medium (1-3 years)", "Long-term (3+ years)", "No preference"])
-        # Privacy preference (replaces generic hormone preference)
+    # Privacy preference (replaces generic hormone preference)
     privacy_pref = st.selectbox(
         "What kind of method do you prefer?",
-        [
-            "No preference",
-            "Prefers pills (may be less discreet)",
-            "Prefers private methods (implant / IUD / injectable)"
-        ]
+        ["No preference", "Prefers pills (may be less discreet)", "Prefers private methods (implant / IUD / injectable)"]
     )
 
 # ---------- LOGISTIC PROBABILITY (inline, ensures correct update) ----------
@@ -130,17 +131,22 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
             "marital_status": marital,
             "ever_been_pregnant": ever_pregnant,
             "breastfeeding": breastfeeding,
-            "hypertension": hypertension,
-            "migraine_aura": migraine,
+            "migraine_aura": migraine,          # note: variable name kept for compatibility with rules.py
             "sti_risk": sti_risk,
-            "cancer_history": cancer_history,
             "next_child": next_child,
-            "duration_pref": duration_pref
+            "duration_pref": duration_pref,
+            "privacy_pref": privacy_pref,
+            "chronic_conditions": chronic_conditions
         }
-        top3 = rank_methods(user_data, preference)
+        top3 = rank_methods(user_data, privacy_pref)
 
     st.metric("📊 Hormonal suitability score", f"{prob:.0%}")
-    st.info("🔍 **Why?** Based on your age, pregnancy history, and medical conditions, this score reflects the likelihood that hormonal methods are suitable.")
+    if prob > 60:
+        st.info("🔍 **Why?** Your profile suggests hormonal methods are often well‑tolerated.")
+    elif prob < 40:
+        st.info("🔍 **Why?** Your profile suggests non‑hormonal methods may be more suitable – shown below.")
+    else:
+        st.info("🔍 **Why?** Both hormonal and non‑hormonal options exist. We ranked by MEC safety and your preferences.")
     
     st.subheader("🌟 Your top 3 recommendations")
     for i, m in enumerate(top3, 1):
