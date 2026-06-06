@@ -16,12 +16,12 @@ with st.sidebar:
         st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
         st.rerun()
     try:
-        logo = Image.open("assets/doctor.jpg")
+        logo = Image.open("app/assets/doctor.jpg")
         st.image(logo, width=100)
     except:
         st.image("https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=100", width=80)
     st.markdown("## 🌸 AfyaChoice AI")
-    st.markdown("<hr style=\"margin: 5px 0;\">", unsafe_allow_html=True)
+    st.markdown("---")
     st.markdown("📍 Kenyan FP Guidelines 2025")
     st.markdown("🏥 **County:** Nairobi (local resources available)")
 
@@ -62,14 +62,15 @@ st.title("🌸 AfyaChoice AI – Family Planning Decision Support")
 st.markdown("Based on **Kenyan FP Guidelines** + **WHO MEC** + **Your Preferences**")
 
 try:
-    banner = Image.open("assets/mother.jpg")
+    banner = Image.open("app/assets/mother.jpg")
     st.image(banner, use_container_width=True)
 except:
     pass
 
-st.markdown("<hr style=\"margin: 5px 0;\">", unsafe_allow_html=True)
+st.markdown("---")
 st.subheader("📝 Your Health & Preference Profile")
-    st.info("📌 Please select all options that apply. No fields are pre‑filled with your personal data.")
+# Helper text – correctly indented with 4 spaces
+st.info("📌 Please select all options that apply. No fields are pre‑filled with your personal data.")
 
 # ---------- TWO‑COLUMN INPUT FORM ----------
 col1, col2 = st.columns(2)
@@ -89,11 +90,8 @@ with col2:
     breastfeeding = st.radio("Currently breastfeeding?", ["No", "Yes"])
     migraine = st.radio("Do you get severe headaches that also affect your vision (seeing flashes, zigzag lines, or temporary blind spots)?", ["No", "Yes"])
     chronic_conditions = st.multiselect(
-    "Do you have any of these chronic conditions? (Select all that apply)",
-    ["None", "Diabetes", "High blood pressure (hypertension)", "Cancer (any type)",
-     "Mental health condition", "HIV", "Convulsion disorder (epilepsy)"]
-)",
-        ["Diabetes", "High blood pressure (hypertension)", "Cancer (any type)",
+        "Do you have any of these chronic conditions? (Select all that apply)",
+        ["None", "Diabetes", "High blood pressure (hypertension)", "Cancer (any type)",
          "Mental health condition", "HIV", "Convulsion disorder (epilepsy)"]
     )
     next_child = st.radio("Plan next child?", ["Within 1 year", "1-3 years", "3+ years", "Not planning"])
@@ -172,7 +170,6 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
             url = f"https://calendar.google.com/calendar/render?action=TEMPLATE&text={title}&dates={start}/{end}"
             st.markdown(f"[Click here to add to Google Calendar]({url})", unsafe_allow_html=True)
 
-st.markdown("<hr style=\"margin: 5px 0;\">", unsafe_allow_html=True)
+st.markdown("---")
 st.caption("👩‍👩‍👧‍👦 Team AfyaChoice: Cynthia, Silas, Felix, Mike, Felicity")
-# v2.0 - calendar fix applied
-
+st.caption("🔒 Private & secure. This tool follows Kenyan FP guidelines and WHO MEC. Always consult a healthcare provider for final decisions.")
