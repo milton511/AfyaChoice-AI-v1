@@ -169,6 +169,6 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
             st.markdown(f"[Click here to add to Google Calendar]({url})", unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("🔒 Private & secure. This tool follows Kenyan FP guidelines and WHO MEC. Always consult a healthcare provider for final decisions.")
+st.caption("👩‍👩‍👧‍👦 Team AfyaChoice: Cynthia, Silas, Felix, Mike, Felicity")
 # v2.0 - calendar fix applied
 
