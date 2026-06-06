@@ -1,6 +1,6 @@
 ﻿def get_mec_score(method_name, conditions):
     mec = 1
-    chronic = conditions.get("chronic_conditions", [])
+    chronic = [c for c in conditions.get("chronic_conditions", []) if c != "None"]
     
     if conditions.get("breastfeeding") == "Yes":
         if "Combined" in method_name:

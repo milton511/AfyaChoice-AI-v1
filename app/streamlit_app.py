@@ -69,6 +69,7 @@ except:
 
 st.markdown("---")
 st.subheader("📝 Your Health & Preference Profile")
+    st.info("📌 Please select all options that apply. No fields are pre‑filled with your personal data.")
 
 # ---------- TWO‑COLUMN INPUT FORM ----------
 col1, col2 = st.columns(2)
@@ -88,7 +89,10 @@ with col2:
     breastfeeding = st.radio("Currently breastfeeding?", ["No", "Yes"])
     migraine = st.radio("Do you get severe headaches that also affect your vision (seeing flashes, zigzag lines, or temporary blind spots)?", ["No", "Yes"])
     chronic_conditions = st.multiselect(
-        "Do you have any of these chronic conditions? (Select all that apply)",
+    "Do you have any of these chronic conditions? (Select all that apply)",
+    ["None", "Diabetes", "High blood pressure (hypertension)", "Cancer (any type)",
+     "Mental health condition", "HIV", "Convulsion disorder (epilepsy)"]
+)",
         ["Diabetes", "High blood pressure (hypertension)", "Cancer (any type)",
          "Mental health condition", "HIV", "Convulsion disorder (epilepsy)"]
     )
