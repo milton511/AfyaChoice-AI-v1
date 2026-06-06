@@ -8,11 +8,18 @@ import streamlit as st
 def load_methods():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     json_path = os.path.join(base_dir, "data", "methods.json")
-    with open(json_path, "r", encoding="utf-8-sig") as f:
-        return json.load(f)["methods"]
+    try:
+        with open(json_path, "r", encoding="utf-8-sig") as f:
+            return json.load(f)["methods"]
+    except:
+        # Fallback in case file is missing
+        return []
 
 def rank_methods(user_data, user_preference=None):
     methods = load_methods()
+    if not methods:
+        return []
+    
     prob = hormonal_probability(
         user_data["age_group_clinical"],
         user_data["edu_level"],
@@ -40,7 +47,6 @@ def rank_methods(user_data, user_preference=None):
         
         mec_weight = {1:15, 2:5, 3:-10}.get(mec, 0)
         
-        # Privacy preference scoring
         privacy = user_data.get("privacy_pref", "No preference")
         pref_weight = 0
         if privacy == "Prefers private methods (implant / IUD / injectable)":

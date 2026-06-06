@@ -25,7 +25,7 @@ with st.sidebar:
     st.markdown("📍 Kenyan FP Guidelines 2025")
     st.markdown("🏥 **County:** Nairobi (local resources available)")
 
-# ---------- CSS FOR LIGHT/DARK THEMES (fixed contrast) ----------
+# ---------- CSS FOR LIGHT/DARK THEMES ----------
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EC 100%); }
@@ -86,23 +86,20 @@ with col1:
 
 with col2:
     breastfeeding = st.radio("Currently breastfeeding?", ["No", "Yes"])
-    # Simplified migraine question (lay language)
     migraine = st.radio("Do you get severe headaches that also affect your vision (seeing flashes, zigzag lines, or temporary blind spots)?", ["No", "Yes"])
-    # Chronic conditions multiselect (replaces separate hypertension & cancer)
     chronic_conditions = st.multiselect(
         "Do you have any of these chronic conditions? (Select all that apply)",
-        ["Diabetes", "High blood pressure (hypertension)", "Cancer (any type)", 
+        ["Diabetes", "High blood pressure (hypertension)", "Cancer (any type)",
          "Mental health condition", "HIV", "Convulsion disorder (epilepsy)"]
     )
     next_child = st.radio("Plan next child?", ["Within 1 year", "1-3 years", "3+ years", "Not planning"])
     duration_pref = st.selectbox("Preferred method duration", ["Short-term (<1 year)", "Medium (1-3 years)", "Long-term (3+ years)", "No preference"])
-    # Privacy preference (replaces generic hormone preference)
     privacy_pref = st.selectbox(
         "What kind of method do you prefer?",
         ["No preference", "Prefers pills (may be less discreet)", "Prefers private methods (implant / IUD / injectable)"]
     )
 
-# ---------- LOGISTIC PROBABILITY (inline, ensures correct update) ----------
+# ---------- LOGISTIC PROBABILITY (inline) ----------
 def logistic_probability(age, edu, marital, pregnant):
     logit = -2.88859684330198
     if age == "Peak Reproductive (20-34)":
@@ -131,7 +128,7 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
             "marital_status": marital,
             "ever_been_pregnant": ever_pregnant,
             "breastfeeding": breastfeeding,
-            "migraine_aura": migraine,          # note: variable name kept for compatibility with rules.py
+            "migraine_aura": migraine,
             "sti_risk": sti_risk,
             "next_child": next_child,
             "duration_pref": duration_pref,
