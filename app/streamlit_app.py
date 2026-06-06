@@ -70,7 +70,6 @@ except:
 st.markdown("---")
 st.subheader("📝 Your Health & Preference Profile")
 # Helper text – correctly indented with 4 spaces
-st.info("📌 Please select all options that apply. No fields are pre‑filled with your personal data.")
 
 # ---------- TWO‑COLUMN INPUT FORM ----------
 col1, col2 = st.columns(2)
