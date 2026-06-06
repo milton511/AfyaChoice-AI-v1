@@ -6,6 +6,7 @@ import os
 import datetime
 import requests
 import json
+from functools import lru_cache
 
 st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 
@@ -13,6 +14,7 @@ st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 if "theme" not in st.session_state:
     st.session_state.theme = "light"
 
+# ---------- Sidebar (moved chatbot here) ----------
 with st.sidebar:
     if st.button("🌓 Toggle Dark/Light Theme"):
         st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
@@ -27,6 +29,66 @@ with st.sidebar:
     st.markdown("📍 Kenyan FP Guidelines 2025")
     st.markdown("🏥 **County:** Nairobi (local resources available)")
 
+    # ---------- Chatbot now in sidebar (left side) ----------
+    st.markdown("---")
+    st.subheader("💬 Ask Afya")
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+    # Show last few messages (compact)
+    for msg in st.session_state.chat_history[-6:]:
+        st.markdown(f"**{msg['role'].capitalize()}:** {msg['content'][:100]}...")
+    user_question = st.text_input("Your question:", key="chat_input", placeholder="e.g., side effects of pills")
+
+    # Simple in‑memory cache for identical questions
+    @lru_cache(maxsize=100)
+    def cached_groq_response(question):
+        # Use the same API call logic but cached
+        api_key = os.getenv("GROQ_API_KEY")
+        if not api_key and hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
+            api_key = st.secrets["GROQ_API_KEY"]
+        if not api_key:
+            return None, "API key missing."
+        headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+        payload = {
+            "model": "llama-3.3-70b-versatile",
+            "messages": [{"role": "user", "content": question}],
+            "temperature": 0.7,
+            "max_tokens": 500
+        }
+        try:
+            resp = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=10)
+            if resp.status_code == 200:
+                return resp.json()["choices"][0]["message"]["content"], None
+            else:
+                return None, f"API error {resp.status_code}"
+        except Exception as e:
+            return None, str(e)
+
+    # Fallback rule‑based answers for common questions when rate limited
+    def fallback_answer(question):
+        q = question.lower()
+        if "side effect" in q and "pill" in q:
+            return "Common side effects of contraceptive pills include nausea, breast tenderness, mood changes, headaches, and spotting. Most are mild and improve after a few months."
+        elif "pregnancy" in q:
+            return "Pregnancy has three trimesters. Regular prenatal care, folic acid, and avoiding harmful substances are key. Always consult a healthcare provider."
+        elif "breastfeeding" in q:
+            return "While breastfeeding, progestin‑only pills, implants, IUDs, and condoms are safe. Combined pills are not recommended."
+        else:
+            return "I'm sorry, I'm currently experiencing high demand. Please try again in a minute or rephrase your question."
+
+    if user_question:
+        st.session_state.chat_history.append({"role": "user", "content": user_question})
+        # Try to get cached answer
+        answer, error = cached_groq_response(user_question)
+        if answer and "rate_limit" not in error.lower():
+            bot_reply = answer
+        else:
+            # If rate limited or error, use fallback
+            bot_reply = fallback_answer(user_question)
+        st.session_state.chat_history.append({"role": "assistant", "content": bot_reply})
+        st.rerun()
+
+# ---------- CSS for professional medical look (unchanged) ----------
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EC 100%); }
@@ -64,51 +126,7 @@ try:
 except:
     pass
 
-# ---------- Chatbot using direct HTTP (no Groq library) ----------
-with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=False):
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
-    for msg in st.session_state.chat_history:
-        st.markdown(f"**{msg['role'].capitalize()}:** {msg['content']}")
-        st.markdown("---")
-    user_question = st.text_input("Your question:", key="chat_input")
-
-    def get_groq_response(messages):
-        api_key = os.getenv("GROQ_API_KEY")
-        if not api_key and hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
-            api_key = st.secrets["GROQ_API_KEY"]
-        if not api_key:
-            return None, "API key missing. Set GROQ_API_KEY in Streamlit secrets."
-        headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-        payload = {
-            "model": "llama-3.3-70b-versatile",
-            "messages": messages,
-            "temperature": 0.7,
-            "max_tokens": 500
-        }
-        try:
-            resp = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=10)
-            if resp.status_code == 200:
-                return resp.json()["choices"][0]["message"]["content"], None
-            else:
-                return None, f"API error {resp.status_code}: {resp.text}"
-        except Exception as e:
-            return None, f"Request error: {str(e)}"
-
-    if user_question:
-        st.session_state.chat_history.append({"role": "user", "content": user_question})
-        system_prompt = "You are Afya, a Kenyan family planning assistant. Answer clearly and concisely about pregnancy, contraception, side effects, breastfeeding, STIs, emergency contraception, and WHO MEC guidelines. Keep answers 3-5 sentences."
-        messages = [{"role": "system", "content": system_prompt}]
-        for msg in st.session_state.chat_history[-12:]:
-            messages.append({"role": msg["role"], "content": msg["content"]})
-        reply, error = get_groq_response(messages)
-        if reply:
-            bot_reply = reply
-        else:
-            bot_reply = f"Sorry, error: {error}"
-        st.session_state.chat_history.append({"role": "assistant", "content": bot_reply})
-        st.rerun()
-
+# ---------- Main content (Health profile, unchanged) ----------
 st.markdown("---")
 st.subheader("📝 Your Health & Preference Profile")
 
