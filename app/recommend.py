@@ -11,7 +11,7 @@ def load_methods():
     with open(json_path, "r", encoding="utf-8-sig") as f:
         return json.load(f)["methods"]
 
-def rank_methods(user_data, user_preference="No preference"):
+def rank_methods(user_data, user_preference=None):
     methods = load_methods()
     prob = hormonal_probability(
         user_data["age_group_clinical"],

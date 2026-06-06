@@ -91,7 +91,15 @@ with col2:
     migraine = st.radio("Migraine with aura?", ["No", "Yes"])
     next_child = st.radio("Plan next child?", ["Within 1 year", "1-3 years", "3+ years", "Not planning"])
     duration_pref = st.selectbox("Preferred method duration", ["Short-term (<1 year)", "Medium (1-3 years)", "Long-term (3+ years)", "No preference"])
-    preference = st.selectbox("Hormone preference", ["No preference", "Long-acting", "Short-term", "No hormones"])
+        # Privacy preference (replaces generic hormone preference)
+    privacy_pref = st.selectbox(
+        "What kind of method do you prefer?",
+        [
+            "No preference",
+            "Prefers pills (may be less discreet)",
+            "Prefers private methods (implant / IUD / injectable)"
+        ]
+    )
 
 # ---------- LOGISTIC PROBABILITY (inline, ensures correct update) ----------
 def logistic_probability(age, edu, marital, pregnant):
