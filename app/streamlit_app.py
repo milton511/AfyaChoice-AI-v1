@@ -1,8 +1,8 @@
 ﻿import streamlit as st
 from PIL import Image
 from recommend import rank_methods
-from ml_model import hormonal_probability
 import datetime
+import math
 
 st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 
@@ -12,11 +12,9 @@ if "theme" not in st.session_state:
 
 # ---------- SIDEBAR ----------
 with st.sidebar:
-    # Theme toggle
     if st.button("🌓 Toggle Dark/Light Theme"):
         st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
         st.rerun()
-    # Logo
     try:
         logo = Image.open("assets/doctor.jpg")
         st.image(logo, width=100)
@@ -26,10 +24,8 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("📍 Kenyan FP Guidelines 2025")
     st.markdown("🏥 **County:** Nairobi (local resources available)")
-    st.markdown("---")
-    st.info("💬 **Chatbot coming soon** – will be integrated as a third‑party assistant.")
 
-# ---------- CSS FOR LIGHT/DARK THEMES (HIGH CONTRAST) ----------
+# ---------- CSS FOR LIGHT/DARK THEMES ----------
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EC 100%); }
@@ -97,10 +93,29 @@ with col2:
     duration_pref = st.selectbox("Preferred method duration", ["Short-term (<1 year)", "Medium (1-3 years)", "Long-term (3+ years)", "No preference"])
     preference = st.selectbox("Hormone preference", ["No preference", "Long-acting", "Short-term", "No hormones"])
 
+# ---------- LOGISTIC PROBABILITY (inline, ensures correct update) ----------
+def logistic_probability(age, edu, marital, pregnant):
+    logit = -2.88859684330198
+    if age == "Peak Reproductive (20-34)":
+        logit += 1.48142509663635
+    elif age == "Advanced Maternal Age (35-49)":
+        logit += 0.184368150894733
+    if edu == "Primary":
+        logit += 1.04198370847373
+    elif edu == "Secondary":
+        logit += 0.778263464783876
+    if marital == "Other":
+        logit += -1.35350229720388
+    elif marital == "Never married":
+        logit += -1.53204479549144
+    if pregnant == "Yes":
+        logit += 2.07691659640518
+    return 1 / (1 + math.exp(-logit))
+
 # ---------- RECOMMENDATION BUTTON ----------
 if st.button("🌸 Get my recommendations", use_container_width=True):
     with st.spinner("Analyzing your profile..."):
-        prob = hormonal_probability(age_group, edu, marital, ever_pregnant)
+        prob = logistic_probability(age_group, edu, marital, ever_pregnant)
         user_data = {
             "age_group_clinical": age_group,
             "edu_level": edu,
@@ -116,11 +131,9 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
         }
         top3 = rank_methods(user_data, preference)
 
-    # Display hormonal suitability score
     st.metric("📊 Hormonal suitability score", f"{prob:.0%}")
     st.info("🔍 **Why?** Based on your age, pregnancy history, and medical conditions, this score reflects the likelihood that hormonal methods are suitable.")
     
-    # Display top 3 recommendations
     st.subheader("🌟 Your top 3 recommendations")
     for i, m in enumerate(top3, 1):
         st.markdown(f'<div class="rec-card">', unsafe_allow_html=True)
@@ -144,6 +157,5 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
             url = f"https://calendar.google.com/calendar/render?action=TEMPLATE&text={title}&dates={start}/{end}"
             st.markdown(f"[Click here to add to Google Calendar]({url})", unsafe_allow_html=True)
 
-# ---------- FOOTER ----------
 st.markdown("---")
 st.caption("🔒 Private & secure. This tool follows Kenyan FP guidelines and WHO MEC. Always consult a healthcare provider for final decisions.")
