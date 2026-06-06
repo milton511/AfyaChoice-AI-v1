@@ -13,7 +13,6 @@ st.set_page_config(page_title="AfyaChoice AI", page_icon="🌸", layout="wide")
 if "theme" not in st.session_state:
     st.session_state.theme = "light"
 
-# Sidebar
 with st.sidebar:
     if st.button("🌓 Toggle Dark/Light Theme"):
         st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
@@ -28,7 +27,6 @@ with st.sidebar:
     st.markdown("📍 Kenyan FP Guidelines 2025")
     st.markdown("🏥 **County:** Nairobi (local resources available)")
 
-# CSS
 if st.session_state.theme == "light":
     theme_css = """
         .stApp { background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EC 100%); }
@@ -66,7 +64,7 @@ try:
 except:
     pass
 
-# ---------- Chatbot using direct requests ----------
+# ---------- Chatbot using direct HTTP (no Groq library) ----------
 with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=False):
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
@@ -76,17 +74,12 @@ with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=Fa
     user_question = st.text_input("Your question:", key="chat_input")
 
     def get_groq_response(messages):
-        # Get API key from secrets or env
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key and hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
             api_key = st.secrets["GROQ_API_KEY"]
         if not api_key:
             return None, "API key missing. Set GROQ_API_KEY in Streamlit secrets."
-
-        headers = {
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        }
+        headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
         payload = {
             "model": "llama-3.3-70b-versatile",
             "messages": messages,
@@ -94,16 +87,11 @@ with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=Fa
             "max_tokens": 500
         }
         try:
-            response = requests.post(
-                "https://api.groq.com/openai/v1/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=10
-            )
-            if response.status_code == 200:
-                return response.json()["choices"][0]["message"]["content"], None
+            resp = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=10)
+            if resp.status_code == 200:
+                return resp.json()["choices"][0]["message"]["content"], None
             else:
-                return None, f"API error {response.status_code}: {response.text}"
+                return None, f"API error {resp.status_code}: {resp.text}"
         except Exception as e:
             return None, f"Request error: {str(e)}"
 
@@ -117,11 +105,10 @@ with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=Fa
         if reply:
             bot_reply = reply
         else:
-            bot_reply = f"Sorry, I encountered an error: {error}"
+            bot_reply = f"Sorry, error: {error}"
         st.session_state.chat_history.append({"role": "assistant", "content": bot_reply})
         st.rerun()
 
-# ---------- Rest of the app (unchanged) ----------
 st.markdown("---")
 st.subheader("📝 Your Health & Preference Profile")
 
@@ -163,7 +150,6 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
 
     st.metric("📊 Hormonal suitability score", f"{prob:.0%}")
     st.info("🔍 **Why?** Based on your age, pregnancy history, and medical conditions, this score reflects the likelihood that hormonal methods are suitable.")
-    
     st.subheader("🌟 Your top 3 recommendations")
     for i, m in enumerate(top3, 1):
         st.markdown(f'<div class="rec-card">', unsafe_allow_html=True)
@@ -175,7 +161,6 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
             st.markdown(f"**📖 Why this method:** {m['explanation']}")
         st.markdown('</div>', unsafe_allow_html=True)
         st.markdown("---")
-    
     if any("Pill" in m['name'] for m in top3):
         st.subheader("💊 Pill reminder")
         reminder_date = st.date_input("Set start date")
