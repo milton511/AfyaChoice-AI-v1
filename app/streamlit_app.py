@@ -170,3 +170,5 @@ if st.button("🌸 Get my recommendations", use_container_width=True):
 
 st.markdown("---")
 st.caption("🔒 Private & secure. This tool follows Kenyan FP guidelines and WHO MEC. Always consult a healthcare provider for final decisions.")
+# v2.0 - calendar fix applied
+
