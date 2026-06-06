@@ -73,15 +73,18 @@ with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=Fa
         st.markdown(f"**{msg['role'].capitalize()}:** {msg['content']}")
         st.markdown("---")
     user_question = st.text_input("Your question:", key="chat_input")
-    
+
     @st.cache_resource
     def get_groq_client():
+        # Try environment variable first (local .env), then Streamlit secrets
         api_key = os.getenv("GROQ_API_KEY")
+        if not api_key and hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
+            api_key = st.secrets["GROQ_API_KEY"]
         if not api_key:
-            st.warning("⚠️ GROQ_API_KEY not found. Set it in Streamlit Secrets.")
+            st.warning("⚠️ GROQ_API_KEY not found. Set it in Streamlit secrets or .env file.")
             return None
         return Groq(api_key=api_key)
-    
+
     if user_question:
         st.session_state.chat_history.append({"role": "user", "content": user_question})
         client = get_groq_client()
@@ -99,9 +102,9 @@ with st.expander("💬 Ask Afya – Your Family Planning Assistant", expanded=Fa
                 )
                 bot_reply = response.choices[0].message.content
             except Exception as e:
-                bot_reply = f"Error: {e}. Please try again."
+                bot_reply = f"Error: {str(e)}. Please try again."
         else:
-            bot_reply = "API key missing."
+            bot_reply = "API key missing. Please add GROQ_API_KEY to Streamlit secrets."
         st.session_state.chat_history.append({"role": "assistant", "content": bot_reply})
         st.rerun()
 
